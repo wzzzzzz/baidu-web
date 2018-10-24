@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+</head>
+<body>
+    <input id="queue-input" type="text">
+    <p id="queue-cont">队列内容：apple-&gt;pear</p>
+    <button id="in-btn">入队</button>
+    <button id="out-btn">出队</button>
+    <button id="font-btn">打印队头元素内容</button>
+    <button id="empty-btn">判断队列是否为空</button>
+
+    <script>
+
+        var queue = ["apple", "pear"];
+        var buts = document.getElementsByTagName("button");
+        var input = document.getElementById("queue-input");
+        var p = document.getElementById("queue-cont");
+        function func1() {
+            console.log(input.value);
+            queue.push(input.value);
+            p.innerHTML += "->" + input.value;
+        }
+        function func2() {
+            queue.push(queue[0]);
+        }
+        function func3() {
+            console.log(queue[0]);
+        }
+        function func4() {
+            console.log(queue.isEmpty());//?????
+        }
+        buts[0].addEventListener("click", func1);
+        buts[1].onclick = func2();
+        buts[2].onclick = func3();
+        buts[3].onclick = func4();
+
+    </script>
+</body>
+</html>

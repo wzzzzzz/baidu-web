@@ -1,0 +1,38 @@
+body {
+    font-family: "Microsoft YaHei" ;
+}
+
+#left{
+    background-color:darkcyan;
+    float: left;
+    height: 650px;
+    width:200px;
+    text-align:center;
+    color:white;
+    padding-top: 50px;
+    margin-top:0px;
+    margin-right:20px;
+}
+
+#hi-btn {
+    background-color: transparent;
+    height: 30px;
+    width: 80px;
+    border-style:solid;
+    border-color:darkslategrey;
+    color:white;
+}
+
+#hide-btn {
+    background-color: black;
+    height: 30px;
+    width: 120px;
+    border-style: solid;
+    border-color: black;
+    color: white;
+    margin-top: 10px;
+}
+
+#hide{
+    display:none;
+}

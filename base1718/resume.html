@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>wzz's first resume</title>
+    <link rel="stylesheet" type="text/css" href="style_2.css" />
+</head>
+
+<body>
+    <div id="left">
+        <h1>简历</h1>
+        <button id="hi-btn">say hi</button>
+    </div>
+    <div id="content">
+        <div class="inf">
+            <h2>基本信息</h2>
+            <div><b>姓名</b> 张三&nbsp;&nbsp;&nbsp;&nbsp;<b>性别</b> 男&nbsp;&nbsp;&nbsp;&nbsp;<b>应聘职位</b> web前端工程师</div>
+        </div>
+        <div class="inf">
+            <h2>联系方式</h2>
+            <div><b>手机 </b> 15900000000&nbsp;&nbsp;&nbsp;&nbsp;<b>邮箱</b> <a href="">000000000@qq.com&nbsp;&nbsp;&nbsp;&nbsp;</a><b>个人主页 </b><a href="https://github.com/wzzzzzz">Github</a></div>
+        </div>
+        <div class="inf">
+            <h2>能力描述</h2>
+            <div>
+                <div class="changeline"><b>技术能力</b></div>熟练掌握html css JavaScript
+            </div>
+            <div>
+                <div class="changeline"><b>综合能力</b></div>良好的沟通，主动积极，勤奋努力
+            </div>
+        </div>
+        <div class="inf">
+            <h2>教育经历</h2>
+            <div>
+                <div class="changeline"><b>本科</b></div>百度前端技术学院小薇学院
+            </div>
+            <div>
+                <div class="changeline"><b>研究生</b></div>百度前端技术学院大斌学院
+            </div>
+        </div>
+        <div class="inf">
+            <h2>项目经历</h2>
+            <div>
+                <div class="changeline"><b>小度小度</b></div>作为前端工程师角色参与了ABC组件开发
+            </div>
+            <div>
+                <div class="changeline"><b>SAN Doc</b></div>作为文档工程师参与了SAN Doc文档编写
+            </div>
+        </div>
+        <button id="hide-btn">show didden</button>
+        <div id="hide">
+            <h2>项目经历</h2>
+            <div>
+                <div class="changeline"><b>摄影</b></div>
+            </div>
+            <div>
+                <div class="changeline"><b>旅游</b></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("hi-btn").onclick = function () {
+            var mydate = new Date();
+            var hour = mydate.getHours();
+            if (hour >= 1 && hour < 12) {
+                alert("GOOD MORNING!");
+            }
+            else if (hour >= 12 && hour < 18) {
+                alert("GOOD AFTERNOON!");
+            }
+            else if (hour >= 18 || hour <1 ) {
+                alert("GOOD NIGHT!");
+            }
+        }
+        document.getElementById("hide-btn").onclick = function () {
+            if (document.getElementById("hide").style.display == "none") {
+                document.getElementById("left").style.height = "780px";
+                document.getElementById("hide").style.display = "block";
+            }
+            else {
+                document.getElementById("left").style.height = "650px";
+                document.getElementById("hide").style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

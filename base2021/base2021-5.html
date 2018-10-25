@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+</head>
+<body>
+    <div id="smile" style="width:480px;height:480px;background-image:url('smile.jpg');background-repeat: no-repeat;background-position: 0px 0px"></div>
+    <script>
+        var i = 1;
+        var posx = 0;
+        var posy = 0;
+        var img = document.getElementById("smile");
+        function setpos() {
+            if (i < 17) {
+                posy -= 480;
+                i++;
+            }
+            else {
+                i = 1;
+                posx = 0;
+                posy = 0;
+            }
+            console.log(img.style.backgroundPosition);
+            var pos =  posx + "px " + posy + "px";
+            console.log(pos);
+            img.style.backgroundPosition = pos;
+            console.log(img.style.backgroundPosition);
+        }
+        var smile = setInterval(setpos, 100);
+    </script>
+</body>
+</html>

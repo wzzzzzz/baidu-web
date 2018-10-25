@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+</head>
+<body>
+    <input id="dec-number" type="number" placeholder="输入一个十进制非负整数">
+    <input id="bin-bit" type="number" placeholder="输入转化后二进制数字位数">
+    <button id="trans-btn">转化</button>
+    <p id="result">结果：</p>
+    <script>
+        //检查输入
+        function valid_required(num) {
+            if (num == null || num == "" || isNaN(num)) {
+                console.log("please input a number!");
+                return false;
+            }
+            var re = /^[0-9]*[1-9][0-9]*$/;
+            if (re.test(num) == false) {
+                console.log("please input a positive inreger!");
+                return false;
+            }
+            return true;
+        }
+        //转化为二进制
+        function dec2bin(decNumber) {
+            if (valid_required(decNumber) == true) {
+                var i = 0;
+                var result = "";
+                while (decNumber != 0) {
+                    var remainder = decNumber % 2;
+                    decNumber = parseInt(decNumber / 2);
+                    result = remainder.toString() + result;
+                    i++;
+                }
+                return result;
+            }
+            else return -1;
+        }
+        //改变位数
+        function dec2binres(res, binNumber) {
+            var result = res;
+            binNumber = parseInt(binNumber);
+            if (valid_required(binNumber) == true) {
+                var len = res.length;
+                if (len < binNumber) {
+                    var i = 0;
+                    var d = binNumber - len;
+                    for (; i < d; i++) {
+                        result = "0" + result.toString();
+                    }
+                }
+                else console.log("目标位数小！");
+                return result;
+            }
+            else return -2;
+        }
+        //点击函数
+        document.getElementById("trans-btn").onclick = function () {
+            var decNumber = document.getElementById("dec-number").value;
+            var binNumber = document.getElementById("bin-bit").value;
+            var res = dec2bin(decNumber);
+            var result = dec2binres(res, binNumber);
+            if (result == -1 || result== -2) {
+                document.getElementById("result").innerHTML = "result " + "null";
+            }
+            else {
+                document.getElementById("result").innerHTML = "结果： " + result;
+            }
+        }
+    </script>
+</body>
+</html>

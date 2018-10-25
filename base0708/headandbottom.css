@@ -1,0 +1,125 @@
+/*解决白边*/
+* {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+/*顶部*/
+.header {
+    width: 100%;
+    height: 70px;
+    background-color: dimgray;
+}
+
+    .header.content {
+        width: 75%;
+        
+    }
+
+    .header.content h2 {
+        color: white;
+        float:left;
+    }
+
+.headertab {
+    margin: auto;
+}
+
+.headertab li {
+    list-style-type: none;
+}
+
+    .headertab li a {
+        float: right;
+        margin: 0 0 0 10px;
+        color: white;
+    }
+
+
+.banner{
+    background-color:lightgreen;
+    width:100%;
+    height:400px;
+}
+
+.bannertab {
+    width: 75%;
+    margin: auto;
+}
+
+        .bannertab li {
+            list-style-type: none;
+        }
+
+            .bannertab li a {
+                background-color: white;
+                border: 1px solid gray;
+                float: right;
+                width: 25px;
+                height: 30px;
+                margin: 340px 0 0 10px;
+                text-align: center;
+                text-decoration:none;
+                color: black;
+            }
+
+            .bannertab li a.active {
+                background-color: white;
+                border: 1px solid gray;
+                float: right;
+                width: 25px;
+                height: 40px;
+                margin: 330px 0 0 10px;
+                text-align: center;
+                text-decoration: none;
+                color: black;
+            }
+
+/*导航栏*/
+.tabs {
+     width: 75%;
+     height: 80px;
+     background-color: white;
+     border-bottom: 1px solid gray;
+     margin: auto;
+}
+
+.tabs li {   
+    background-color: dimgray;
+    list-style-type: none;
+    float: left;
+    height: 50px;
+    width: 100px;
+    margin-top:30px;
+}
+
+.tabs li a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/*内容*/
+.content {
+    width: 75%;
+    margin: auto;
+    /*background-color:antiquewhite;*/
+}
+
+
+
+/*以下是底部*/
+.bottum {
+    height: 120px;
+    background-color: dimgray;
+}
+
+    .bottum p {
+        padding-top: 20px;
+        font-size: 80%;
+        color: white;
+        text-align:center;
+    }

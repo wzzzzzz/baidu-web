@@ -1,0 +1,51 @@
+body {
+    font-family: "Microsoft YaHei" ;
+}
+
+h1 {
+    background-color: dimgray;
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    margin:0;
+}
+
+#content {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-bottom: 1px solid gray;
+    margin: 0px;
+}
+
+.inf {
+    height: 130px;
+    width: 100%;
+    margin: 0px;
+    border-bottom: 1px solid gray;
+}
+
+h2 {
+    background-color: darkgray;
+    display: inline;
+    float: left;
+    clear: left;
+    width: 130px;
+    text-align: center;
+    height: 130px;
+    line-height: 130px;
+    border-bottom: 1px solid white;
+    margin: 0px;
+}
+
+div.inf>div {
+    position: relative;
+    top: 10px;
+    left: 10px;
+    margin: 0px;
+}
+
+.changeline{
+    display: inline-block;
+}
+

@@ -1,0 +1,70 @@
+.content{
+    
+}
+
+.left{
+    background-color: lightpink;
+    height:50px;
+}
+
+.middle {
+    background-color: turquoise;
+    height: 50px;
+}
+
+.right {
+    background-color: powderblue;
+    height: 50px;
+}
+
+.two1, .two2, .two3, .three1, .three2 {
+    display: flex;
+}
+
+.two1 div.left {
+    width: 30%;
+}
+
+.two1 div.right {
+    width: 70%;
+}
+
+.two2 div.left {
+    width: 300px;
+}
+
+.two2 div.right{
+    flex-grow: 1;
+}
+
+.two3 div.left {
+    flex-grow: 1;
+}
+
+.two3 div.right {
+    width: 300px;
+}
+
+.three1 div.left{
+    width: 300px;
+}
+
+.three1 div.middle{
+    flex-grow: 1;
+}
+
+.three1 div.right{
+    width: 300px;
+}
+
+.three2 div.left{
+    width: 300px;
+}
+
+.three2 div.middle{
+    width: 300px;
+}
+
+.three2 div.right{
+    flex-grow: 1;
+}

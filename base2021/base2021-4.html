@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+</head>
+<body>
+    <div id="fade-obj" style="width:300px;height:300px;background:#000"></div>
+    <button id="fade-btn">淡出</button>
+    <script>
+        var fadeobj = document.getElementById("fade-obj");
+        var btn = document.getElementById("fade-btn");
+        var opacity = 1;
+        var t
+        btn.onclick = function (e) {
+            if (btn.innerHTML == "淡出") {
+                t = window.clearInterval(t);
+                fadeobj.style.opacity = opacity;
+                //让不能点
+                btn.setAttribute("disabled", "disabled");
+                t = setInterval(fadeout, 50);
+                setTimeout("btn.innerHTML = '淡入'", 5000);
+                //让能点
+                setTimeout("btn.removeAttribute('disabled')", 5000);
+            }
+            else {
+                t = window.clearInterval(t);
+                fadeobj.style.opacity = opacity;
+                btn.setAttribute("disabled", "disabled");
+                t = setInterval(fadein, 50);
+                setTimeout("btn.innerHTML = '淡出'", 5000);
+                setTimeout("btn.removeAttribute('disabled')", 5000);
+            }
+        }
+        function fadein() {
+            if (opacity < 1) {
+                opacity += 0.01;
+            }
+            else opacity = 1;
+            //console.log(opacity);
+            fadeobj.style.opacity = opacity;
+        }
+
+        function fadeout() {
+            if (opacity > 0) {
+                opacity -= 0.01;
+            }
+            else opacity = 0;
+            //console.log(opacity);
+            fadeobj.style.opacity = opacity;
+        }
+    </script>
+</body>
+</html>

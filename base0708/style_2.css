@@ -1,0 +1,87 @@
+.left{
+    background-color: lightpink;
+    height:50px;
+}
+
+.middle {
+    background-color: turquoise;
+    height: 50px;
+}
+
+.right {
+    background-color: powderblue;
+    height: 50px;
+}
+.two1, .two2,.two3,.three1,.three2 {
+    position:relative;
+}
+
+.two1 div.left {   
+    width: 30%;
+}
+
+.two1 div.right {
+    width:70%;
+    position: absolute;
+    left: 30%;
+    top: 0;
+}
+
+.two2 div.left {
+    width: 300px;
+}
+
+.two2 div.right{
+    /*width: calc(100%-300px);*/
+    position: absolute;
+    left: 300px;
+    top: 0;
+    width:  calc(100% - 300px);
+}
+
+.two3 div.left {
+    width:  calc(100% - 300px);
+}
+
+.two3 div.right {
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.three1 div.left{
+    width: 300px;
+}
+
+.three1 div.middle{
+    width:  calc(100% - 600px);
+    position: absolute;
+    top: 0;
+    left: 300px;
+}
+
+.three1 div.right{
+    width: 300px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.three2 div.left{
+    width: 300px;
+}
+
+.three2 div.middle{
+    width: 300px;
+    position: absolute;
+    top: 0;
+    left: 300px;
+}
+
+.three2 div.right{
+    width:  calc(100% - 600px);
+    position: absolute;
+    right: 0;
+    top: 0;
+}

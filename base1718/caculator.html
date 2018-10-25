@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+</head>
+<body>
+    <input id="first-number" type="number" value="0" placeholder="first number">
+    <input id="second-number" type="number" value="0" placeholder="second number">
+    <button id="add-btn">add</button>
+    <button id="minus-btn">minus</button>
+    <button id="times-btn">times</button>
+    <button id="divide-btn">divide</button>
+    <p id="result">result</p>
+    <script>
+        function valid_required() {
+            var fn = document.getElementById("first-number").value;
+            var sn = document.getElementById("second-number").value;
+            if (fn == null || fn == "" || isNaN(fn)) {
+                console.log("第一个数字不正确！");
+                return false;
+            }
+            if (sn == null || sn == "" || isNaN(fn)) {
+                console.log("第二个数字不正确！");
+                return false;
+            }
+            return true;
+        }
+        document.getElementById("add-btn").onclick = function () {
+            if (valid_required() == true) {
+                var fn = document.getElementById("first-number").value;
+                var sn = document.getElementById("second-number").value;
+                var res = parseInt(fn) + parseInt(sn);
+                //console.log(res);
+                document.getElementById("result").innerHTML = 'result ' + res;
+            }
+            else document.getElementById("result").innerHTML = 'result ' + 'NULL';
+
+        }
+        document.getElementById("minus-btn").onclick = function () {
+            if (valid_required() == true) {
+                var fn = document.getElementById("first-number").value;
+                var sn = document.getElementById("second-number").value;
+                var res = parseInt(fn) - parseInt(sn);
+                //console.log(res);
+                document.getElementById("result").innerHTML = 'result ' + res;
+            }
+            else document.getElementById("result").innerHTML = 'result ' + 'NULL';
+        }
+        document.getElementById("times-btn").onclick = function () {
+            if (valid_required() == true) {
+                var fn = document.getElementById("first-number").value;
+                var sn = document.getElementById("second-number").value;
+                var res = parseInt(fn) * parseInt(sn);
+                //console.log(res);
+                document.getElementById("result").innerHTML = 'result ' + res;
+            }
+            else document.getElementById("result").innerHTML = 'result ' + 'NULL';
+        }
+        document.getElementById("divide-btn").onclick = function () {
+            var fn = document.getElementById("first-number").value;
+            var sn = document.getElementById("second-number").value;
+            if (valid_required() == true && sn != "0" ) {
+                var res = parseInt(fn) / parseInt(sn);
+                //console.log(res);
+                document.getElementById("result").innerHTML = 'result ' + res;
+            }
+            else {
+                if (sn == "0") {
+                    console.log("除数不能为零！");
+                }
+                document.getElementById("result").innerHTML = 'result ' + 'NULL';
+            }
+        }
+    </script>
+</body>
+</html>

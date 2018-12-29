@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+</head>
+<body>
+    <div>
+    </div>
+
+    <script>
+        var arr1 = [43, 54, 4, -4, 84, 100, 58, 27, 140];
+        var arr2 = ['apple', 'dog', 'cat', 'car', 'zoo', 'orange', 'airplane'];
+        var arr3 = [[10, 14], [16, 60], [7, 44], [26, 35], [22, 63]];
+        var arr4 = [
+            {
+                id: 1,
+                name: 'candy',
+                value: 40
+            }, {
+                id: 2,
+                name: 'Simon',
+                value: 50
+            }, {
+                id: 3,
+                name: 'Tony',
+                value: 45
+            }, {
+                id: 4,
+                name: 'Annie',
+                value: 60
+            }
+        ];
+
+        sort1();
+        sort2();
+        sort3();
+        sort4();
+        function sortnum(a,b) {
+            return a-b;
+        }
+        function sort1() {
+            arr1.sort(sortnum);
+            console.log(arr1);
+            arr1.reverse();
+            console.log(arr1);
+        }
+        function sortstr(a, b) {
+            return b - a;
+        }
+        function sort2() {
+            arr2.sort();
+            console.log(arr2);
+            arr2.sort(sortstr);
+            console.log(arr2);
+        }
+        function sortarr(a, b) {
+            return a[1]-b[1];
+        }
+        function sort3() {
+            arr3.sort(sortarr);
+            console.log(arr3);
+        }
+        function sortobj(a, b) {
+            return a.value - b.value;
+        }
+        function sort4() {
+            arr4.sort(sortobj);
+            console.log(arr4);
+        }
+    </script>
+</body>
+</html>

@@ -19,23 +19,69 @@
         var input = document.getElementById("queue-input");
         var p = document.getElementById("queue-cont");
         function func1() {
-            console.log(input.value);
-            queue.push(input.value);
-            p.innerHTML += "->" + input.value;
+            if (input.value != "") {
+                queue.unshift(input.value);
+                p.innerHTML = "队列内容：";
+                for (var i = 0; i < queue.length-1; i++) {
+                    p.innerHTML += queue[i] + "->";
+                }
+                p.innerHTML += queue[i];
+            }
         }
         function func2() {
-            queue.push(queue[0]);
+            queue.pop();
+            var len = p.innerHTML.length;
+            if (queue.length != 0) {
+                var ind = p.innerHTML.lastIndexOf("-&gt");
+                console.log(ind);
+                p.innerHTML = p.innerHTML.substring(0, ind);
+            }
         }
         function func3() {
-            console.log(queue[0]);
+            console.log(queue[queue.length-1]);
         }
         function func4() {
-            console.log(queue.isEmpty());//?????
+            if (queue.length == 0) {
+                console.log("true");
+            }
+            else console.log("false");
+        }
+
+
+        function func5() {
+            if (input.value != "") {
+                queue.push(input.value);
+                p.innerHTML += "->" + input.value;
+            }
+        }
+        function func6() {
+            queue.shift();
+            p.innerHTML = "队列内容：";
+            if (queue.length != 0) {
+                p.innerHTML += queue[0];
+            }
+            for (var i = 1; i < queue.length; i++) {
+                p.innerHTML += "->" + queue[i];
+            }
+
+        }
+        function func7() {
+            console.log(queue[0]);
+        }
+        function func8() {
+            if (queue.length == 0) {
+                console.log("true");
+            }
+            else console.log("false");
         }
         buts[0].addEventListener("click", func1);
-        buts[1].onclick = func2();
-        buts[2].onclick = func3();
-        buts[3].onclick = func4();
+        buts[1].addEventListener("click", func2);
+        buts[2].addEventListener("click", func3);
+        buts[3].addEventListener("click", func4);
+        //buts[0].addEventListener("click", func5);
+        //buts[1].addEventListener("click", func6);
+        //buts[2].addEventListener("click", func7);
+        //buts[3].addEventListener("click", func8);
 
     </script>
 </body>

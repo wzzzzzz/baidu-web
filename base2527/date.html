@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+</head>
+<body>
+    <p id="time"></p>
+    <p id="time2"></p>
+
+    <script>
+        var p = document.getElementById("time");
+        var pp = document.getElementById("time2");
+        func1();
+        function func1() {
+            var year;
+            var month;
+            var day;
+            var week;
+            var hour;
+            var minute;
+            var second;
+            var apm;
+            var today = new Date();
+            year = today.getFullYear();
+            month = today.getMonth();
+            day = today.getDate();
+            week = today.getDay();
+            hour = today.getHours();
+            minute = today.getMinutes();
+            second = today.getSeconds();
+            if (hour < 12)
+                apm = "AM";
+            else apm = "PM";
+            month++;
+            month = addzero(month);
+            day = addzero(day);
+            week = getweek(week);
+            hour = addzero(hour);
+            minute = addzero(minute);
+            second = addzero(second);
+            combine(year, month, day, week, hour, minute, second);
+            
+            week = getweek2(week);
+            combine2(year, month, day, week, hour, minute, second, apm);
+        }
+        function addzero(num) {
+            if (!isNaN(num)) {
+                if (num < 10) {
+                    var fullnum = "0" + num;
+                    return fullnum;
+                }
+                else {
+                    return num;
+                }
+            }
+        }
+        function getweek(w) {
+            var res;
+            switch (w) {
+                case 1:
+                    res = "一";
+                    break;
+                case 2:
+                    res = "二";
+                    break;
+                case 3:
+                    res = "三";
+                    break;
+                case 4:
+                    res = "四";
+                    break;
+                case 5:
+                    res = "五";
+                    break;
+                case 6:
+                    res = "六";
+                    break;
+                case 7:
+                    res = "七";
+                    break;
+            }
+            return res;
+        }
+        function combine(year, month, day, week, hour, minute, second) {
+            var text = year + "年" + month + "月" + day + "日星期" + week + " " + hour + ":" + minute + ":" + second;
+            p.innerHTML = text;
+        }
+
+        function getweek2(w) {
+            var res;
+            switch (w) {
+                case "一":
+                    res = "Monday";
+                    break;
+                case "二":
+                    res = "Thuesday";
+                    break;
+                case "三":
+                    res = "Wensday";
+                    break;
+                case "四":
+                    res = "Thrusday";
+                    break;
+                case "五":
+                    res = "Friday";
+                    break;
+                case "六":
+                    res = "Saturday";
+                    break;
+                case "七":
+                    res = "Sunday";
+                    break;
+            }
+            return res;
+        }
+        function combine2(year, month, day, week, hour, minute, second, apm) {
+            var text = year + "-" + month + "-" + day + " " + week + " " + hour + ":" + minute + ":" + second + " " + apm;
+            pp.innerHTML = text;
+        }
+    </script>
+</body>
+</html>

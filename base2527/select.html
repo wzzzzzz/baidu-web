@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿  <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,48 +9,228 @@
         <option value="2000">2000</option>
         <option value="2001">2001</option>
         <option value="2002">2002</option>
-        ……
-        <option value="2032">2002</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
     </select>
 
     <select id="month-select">
         <option value="1">1</option>
         <option value="2">2</option>
-        ……
+        <option value="5">5</option>
         <option value="12">12</option>
     </select>
 
     <select id="day-select">
         <option value="1">1</option>
         <option value="2">2</option>
-        ……
-        <option value="31">31</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="26">26</option>
+        <option value="30">30</option>
     </select>
 
     <select id="hour-select">
-        <option value="0">00</option>
-        <option value="1">01</option>
-        ……
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+        <option value="10">10</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
         <option value="23">23</option>
     </select>
 
     <select id="minite-select">
         <option value="0">0</option>
         <option value="1">1</option>
-        ……
-        <option>59</option>
+        <option value="5">5</option>
+        <option value="15">15</option>
+        <option value="40">40</option>
     </select>
 
     <select id="second-select">
         <option value="0">0</option>
         <option value="1">1</option>
-        ……
-        <option>59</option>
+        <option value="13">13</option>
+        <option value="21">21</option>
+        <option value="31">31</option>
+        <option value="45">45</option>
     </select>
 
-    <p id="result-wrapper">现在距离 2001年1月1日星期X HH:MM:SS 还有 X 天 X 小时 X 分 X 秒</p>
+    <p id="result-wrapper">现在距离 2000年1月1日星期六 00:00:00 已经过去6952天13小时55分29秒</p>
 
     <script>
+        var today = new Date();
+        var todayyear = today.getFullYear();
+        var todaymonth = today.getMonth();
+        todaymonth++;
+        var todayday = today.getDate();
+        var todayhour = today.getHours();
+        var todayminute = today.getMinutes();
+        var todaysecond = today.getSeconds();
+
+        var year = document.getElementById("year-select");
+        var month = document.getElementById("month-select");
+        var day = document.getElementById("day-select");
+        var hour = document.getElementById("hour-select");
+        var minite = document.getElementById("minite-select");
+        var second = document.getElementById("second-select");
+
+        var yeartext = year.options[0].text;
+        var monthtext = month.options[0].text;
+        var daytext = day.options[0].text;
+        var hourtext = hour.options[0].text;
+        var minitetext = minite.options[0].text;
+        var secondtext = second.options[0].text;
+
+        var setdaytext;
+        var weektext;
+        var gaptext;
+        var setday = new Date();
+
+        year.onchange = function () {
+            yeartext = year.options[year.selectedIndex].value;
+            getsetday();
+        }
+        month.onchange = function () {
+            monthtext = month.options[month.selectedIndex].value;
+            getsetday();
+        }
+        day.onchange = function () {
+            daytext = day.options[day.selectedIndex].value;
+            getsetday();
+        }
+        hour.onchange = function () {
+            hourtext = hour.options[hour.selectedIndex].value;
+            getsetday();
+        }
+        minite.onchange = function () {
+            minitetext = minite.options[minite.selectedIndex].value;
+            getsetday();
+        }
+        second.onchange = function () {
+            secondtext = second.options[second.selectedIndex].value;
+            getsetday();
+        }
+
+        function setsetday() {
+            setday.setFullYear(yeartext);
+            setday.setMonth(monthtext-1);
+            setday.setDate(parseInt(daytext));
+            setday.setHours(parseInt(hourtext));//??????????????
+            setday.setMinutes(minitetext);
+            setday.setSeconds(secondtext);
+            //console.log(setday.getMonth());
+            //console.log(monthtext - 1);
+            //console.log(setday.getDate());
+            //console.log(parseInt(daytext) + 1);
+            //console.log(setday.getHours());
+        }
+        function calweek() {
+            weektext = setday.getDay();
+            //console.log(weektext);
+            switch (weektext) {
+                case 1:
+                    weektext = "一";
+                    break;
+                case 2:
+                    weektext = "二";
+                    break;
+                case 3:
+                    weektext = "三";
+                    break;
+                case 4:
+                    weektext = "四";
+                    break;
+                case 5:
+                    weektext = "五";
+                    break;
+                case 6:
+                    weektext = "六";
+                    break;
+                case 0:
+                    weektext = "日";
+                    break;
+            }
+        }
+        function getgap() {
+            //console.log(setday.getDate());
+            //console.log(today.getDate());
+            //这样输出的是世界时
+            console.log(setday);
+            console.log(today);
+            //这样输出的是当前时区时间
+            console.log(setday.toString());
+            console.log(today.toString());
+            //这样输出是世界时
+            console.log(setday.toUTCString());
+            console.log(today.toUTCString());
+            var gap = today - setday;
+            var flag = 1;
+            if (gap < 0) {
+                console.log(gap);
+                flag = 0;
+                gap = -gap;
+            }
+            var gapday = Math.floor(gap / 86400000);
+            gap = gap % 86400000;
+            var gaphour = Math.floor(gap / 3600000);
+            gap = gap & 3600000;
+            var gapminute = Math.floor(gap / 60000);
+            gap = gap % 60000;
+            var gapsecond = Math.floor(gap / 1000);
+            if (flag == 0) {
+                //console.log("00000000000000");
+                gaptext = "还有";
+            }
+            else {
+                //console.log("1111111111111");
+                gaptext = "已经过去";
+            }
+            gaptext = gaptext + gapday + "天" + gaphour + "小时" + gapminute + "分" + gapsecond + "秒";
+            //console.log(gaptext);
+        }
+        function addzero(num) {
+            if (!isNaN(num)) {
+                if (num < 10) {
+                    var fullnum = "0" + num;
+                    return fullnum;
+                }
+                else {
+                    return num;
+                }
+            }
+        }
+
+        function getsetday() {
+            todayhour = today.getHours();
+            todayminute = today.getMinutes();
+            todaysecond = today.getSeconds();
+
+            setsetday();
+            calweek();
+            //console.log(parseInt(hourtext));
+            hourtext = addzero(parseInt(hourtext));
+            //console.log(hourtext);
+            minitetext = addzero(parseInt(minitetext));
+            secondtext = addzero(parseInt(secondtext));
+
+            setdaytext = yeartext + "年" + monthtext + "月" + daytext + "日星期" + weektext + " " + hourtext + ":" + minitetext + ":" + secondtext;
+            getgap();
+
+            var p = document.getElementById("result-wrapper");
+            p.innerHTML = "现在距离 " + setdaytext + gaptext;
+        }
 
     </script>
 </body>

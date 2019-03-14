@@ -1,0 +1,30 @@
+body {
+    font-family: "Microsoft YaHei" ;
+}
+
+input{
+    height: 50 px;/* ??? */
+    width: 194px;
+}
+
+ul{
+    display: block;
+    width: 200px;
+    list-style: none;
+    list-style-position: outside;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+li{
+    /* display: inline-block; */
+    width: 198px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    border-bottom: 1px solid grey;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    /* border-top: 1px solid grey; */
+    /* margin: 0px 0px 0px 0px; */
+}

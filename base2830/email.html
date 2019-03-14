@@ -3,20 +3,202 @@
 <head>
     <meta charset="utf-8" />
     <title>email</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
     <div class="wrapper">
-        <input id="email-input" type="text">
-        <ul id="email-sug-wrapper" class="email-sug"></ul>
+        <input id="email-input" type="text" autofocus>
+        <ul id="email-sug-wrapper" class="email-sug">
+        </ul>
     </div>
-    <script>
+    <script>      
+        var HtmlUtil = {
+        /*1.用浏览器内部转换器实现html转码*/
+        htmlEncode:function (html){
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement ("div");
+            //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+            (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
+            //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+            var output = temp.innerHTML;
+            temp = null;
+            return output;
+        },
+        /*2.用浏览器内部转换器实现html解码*/
+        htmlDecode:function (text){
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+            temp.innerHTML = text;
+            //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        };
+
+
         var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
         var emailinput = document.getElementById("email-input");
+        var ulist = document.getElementById("email-sug-wrapper");
         var emailtext;
-        function gettext{
-            emailtext = emailinput.innerText;
-            emailtext=$.trim()
+        var emailtextlater;
+        var posttext=[];
+        var ulists=[];
+        var choosenindex;
+        //大小键盘上的任何键都会调用。按下去键的时候就调用了，比如退格键，调用时里面的内容还没被清除；后面加字符的话，调用时后面的还没加进来
+        // emailinput.onkeydown= function() {
+        //     console.log("onkeydown");
+        //     console.log(emailinput.value);
+        //     gettext();
+        // }
+        //空格回车会调用，上下左右后退不调用。响应时输入的字符并没有被系统接受，这一点同onkeydown
+        // emailinput.onkeypress=function(){
+        //     console.log("onkeypress");
+        //     console.log(emailinput.value);
+        //     gettext();
+        // }
+        //大小键盘上的任何键都会调用。只有最后按键抬起后才调用，长按不会实时调用
+        // emailinput.onkeyup=function(){
+        //     console.log("onkeyup");
+        //     console.log(emailinput.value);
+        //     gettext();
+        // }
+        //空格后退会调用，回车上下左右键等不调用
+        emailinput.oninput=function(){
+            //console.log("oninput");
+            console.log(emailinput.value);
+            gettext();
+            if(emailtext!=""){
+                var ulists=ulist.childNodes;
+                addtotext();
+                if(!emailtextlater&&ulists.length==6){
+                    changetext();
+                }
+                else{
+                    showpart();
+                }
+                ulist.style.visibility="visible";
+                choosenindex=1;
+                ulist.childNodes[1].style="background:pink";
+                emailinput.onkeydown=emailinputkeydown;
+            }
+            else{
+                ulist.style.visibility="hidden";
+                emailinput.onkeydown=null;
+            }
         }
+        function emailinputkeydown(event){
+            if(event.key=="Enter"){
+                var thislist=ulist.childNodes[choosenindex];
+                //这样精简一点但是不能传参数做不了，以后改进
+                // thislist.mousedown();
+                // thislist.mouseup();
+                thislist.style="background:grey";
+                //这里注意，要解码的内容，从innerText获取而不是innerHtml
+                var gettext=thislist.innerText;
+                emailinput.value=HtmlUtil.htmlDecode(gettext);
+                ulist.style.visibility="hidden";
+                emailinput.focus();
+            }
+            if(event.key=="ArrowUp"){
+                choosenindex--;
+                if(choosenindex==0)
+                    choosenindex=5;
+                choosenindexchanged();
+            }
+            if(event.key=="ArrowDown"){
+                choosenindex++;
+                if(choosenindex==6)
+                    choosenindex=1;
+                choosenindexchanged();
+            }
+            if(event.key=="Escape"){
+                emailinput.select();
+            }
+        }
+        function gettext(){
+            emailtext = emailinput.value;
+            emailtext = emailtext.trim();
+            var texts=emailtext.split("@");
+            if(texts.length>1){
+                emailtext=texts[0];
+                emailtextlater=texts[1];
+            }
+        }
+        function addtotext(){
+            posttext=[];
+            postfixList.forEach(function(postfixs) {
+                posttext.push(HtmlUtil.htmlEncode(emailtext)+'@'+postfixs);
+            });      
+        }
+        function changetext(){
+            ulists=ulist.childNodes;
+            for(var i=0;i<ulists.length-1;i++){
+                ulists[i+1].textContent=posttext[i];
+            }
+        }
+        function showpart(){
+            //flag记录@后面字符串和设定postfixList的匹配情况，true是指全不匹配
+            var flag=true;
+            ulists=ulist.childNodes;
+            //这里要注意，删掉一个之后后面的每一个都向前移动了，所以索引i不能++
+            for(var i=1;i<ulists.length;){
+                ulist.removeChild(ulist.childNodes[i]);
+            }
+            for(var i=0;i<postfixList.length;i++){
+                //如果@后面没有东西或者@的东西能后面匹配
+                if(emailtextlater==""||postfixList[i].indexOf(emailtextlater)!=-1){
+                    flag=eachshowpart(i);
+                }
+            }
+            //@后面的东西全都不匹配
+            if(flag==true){
+                for(var i=0;i<postfixList.length;i++){
+                    eachshowpart(i);
+                }
+            }
+        }
+        function eachshowpart(i){
+            var lists=document.createElement("li");
+            var litext=document.createTextNode(HtmlUtil.htmlEncode(emailtext)+'@'+postfixList[i]);
+            lists.appendChild(litext);
+            lists.id="email-lists";
+            lists.className=i+1;
+            ulist.appendChild(lists);
+            //这里要注意，用addEventListener或者onmouseup都可以，但是后面的函数都只有函数名，不要括号，也不能传参数，传参数要想别的办法
+            lists.addEventListener("mousedown",mousedown);
+            lists.onmouseup=mouseup;
+            lists.addEventListener("mouseover",mouseover);
+            lists.addEventListener("mouseout", mouseout);
+            return false;           
+        }
+        function mousedown(){
+            this.style="background:grey";
+        }
+        function mouseup(){
+            //这里注意，要解码的内容，从innerText获取而不是innerHtml
+            var gettext=this.innerText;
+            emailinput.value=HtmlUtil.htmlDecode(gettext);
+            ulist.style.visibility="hidden";
+            emailinput.focus();
+        }
+        function mouseover(){
+            choosenindex=this.className;
+            choosenindexchanged();
+        }
+        function mouseout(){
+            this.style="background:white";
+        }
+        function choosenindexchanged(){
+            for(var i=1;i<ulist.childNodes.length;i++){
+                ulist.childNodes[i].style="background:white";
+            }
+            var thislist=ulist.childNodes[choosenindex];
+            thislist.style="background:lightblue";
+        }
+
+
     </script>
 </body>
 </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>graph</title>
+    </head>
+    <body>
+
+        <canvas id="mycanvas" width="600" height="400">
+        </canvas>
+
+        <script>
+            var can=document.getElementById("mycanvas");
+            var ctx=can.getContext("2d");
+
+            ctx.beginPath();
+            ctx.moveTo(50,50);
+            ctx.lineTo(50,300);
+            ctx.strokeStyle="rgb(0,0,0)";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(50,60);
+            ctx.lineTo(550,60);
+            ctx.strokeStyle="rgb(100,100,100)";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(50,120);
+            ctx.lineTo(550,120);
+            ctx.strokeStyle="rgb(100,100,100)";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(50,180);
+            ctx.lineTo(550,180);
+            ctx.strokeStyle="rgb(100,100,100)";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(50,240);
+            ctx.lineTo(550,240);
+            ctx.strokeStyle="rgb(100,100,100)";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(50,300);
+            ctx.lineTo(550,300);
+            ctx.strokeStyle="rgb(0,0,0)";
+            ctx.stroke();
+
+        </script>
+    </body>
+</html>

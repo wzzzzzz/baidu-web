@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="yes"?>
+
+<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<text x="35" y="40" font-family="Verdana" font-size="15">数量</text>
+<text x="560" y="305" font-family="Verdana" font-size="15">月份</text>
+<line x1="50" y1="50" x2="50" y2="300" style="stroke:rgb(0,0,0);stroke-width:1" />
+<line x1="50" y1="60" x2="550" y2="60" style="stroke:rgb(100,100,100);stroke-width:1" />
+<text x="10" y="65" font-family="Verdana" font-size="15">800</text>
+<line x1="50" y1="120" x2="550" y2="120" style="stroke:rgb(100,100,100);stroke-width:1" />
+<text x="10" y="125" font-family="Verdana" font-size="15">600</text>
+<line x1="50" y1="180" x2="550" y2="180" style="stroke:rgb(100,100,100);stroke-width:1" />
+<text x="10" y="185" font-family="Verdana" font-size="15">400</text>
+<line x1="50" y1="240" x2="550" y2="240" style="stroke:rgb(100,100,100);stroke-width:1" />
+<text x="10" y="245" font-family="Verdana" font-size="15">200</text>
+<line x1="50" y1="300" x2="550" y2="300" style="stroke:rgb(0,0,0);stroke-width:1" />
+<text x="30" y="305" font-family="Verdana" font-size="15">0</text>
+<text x="60" y="320" font-family="Verdana" font-size="15">1月</text>
+<text x="100" y="320" font-family="Verdana" font-size="15">2月</text>
+<text x="140" y="320" font-family="Verdana" font-size="15">3月</text>
+<text x="180" y="320" font-family="Verdana" font-size="15">4月</text>
+<text x="220" y="320" font-family="Verdana" font-size="15">5月</text>
+<text x="260" y="320" font-family="Verdana" font-size="15">6月</text>
+<text x="300" y="320" font-family="Verdana" font-size="15">7月</text>
+<text x="340" y="320" font-family="Verdana" font-size="15">8月</text>
+<text x="380" y="320" font-family="Verdana" font-size="15">9月</text>
+<text x="420" y="320" font-family="Verdana" font-size="15">10月</text>
+<text x="460" y="320" font-family="Verdana" font-size="15">11月</text>
+<text x="500" y="320" font-family="Verdana" font-size="15">12月</text>
+<rect x="60" y="264" width="30" height="36" style="fill:rgb(220,150,150)" />
+</svg>

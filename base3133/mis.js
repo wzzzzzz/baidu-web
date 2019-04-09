@@ -201,6 +201,7 @@ function changetablediasplay(pcount,rcount){
             }
             if(chooseregions[i%3]==1&&flag==false){
                 producttd.style.display="table-cell";
+                producttd.style.backgroundColor="white";
                 producttd.rowSpan=rcount;
                 flag=true;
             }
@@ -226,6 +227,7 @@ function changetablediasplay(pcount,rcount){
             }
             if(chooseproducts[parseInt(i/3)]==1&&flag==false){
                 producttd.style.display="table-cell";
+                producttd.style.backgroundColor="white";
                 producttd.rowSpan=pcount;
                 flag=true;
             }
@@ -235,6 +237,18 @@ function changetablediasplay(pcount,rcount){
         }
     }
 }
+//鼠标滑过表格的行
+function mouseovertable(t) {
+    //console.log(t.tagName);
+    t.style.backgroundColor = "rgb(220,150,150)";
+    console.log(t.id);
+}
+//滑出行
+function mouseouttable(t) {
+    t.style.backgroundColor="white";
+}
+
+
 //思路1
 // function cleartablecontent(){
 //     var alltrs=table.childNodes;

@@ -14,3 +14,18 @@ td{
     border: 1px solid black;
     text-align: center;
 }
+#graphdiv{
+    display: flex;
+}
+#graph{
+    /* 这种方式两个div不能展示在同一行，会出现换行
+    display: inline-block;
+    width: 50%; */
+    flex:1;
+    min-width: 600px;
+    height: 350px;
+}
+canvas{
+    /* absolute：绝对定位，是相对于它的父元素定位的 */
+    position: absolute;
+}

@@ -41,6 +41,8 @@ var products=document.getElementById("productcheckbox").childNodes;
 var table=document.getElementById("table");
 var chooseregions=new Array(1,0,0);
 var chooseproducts=new Array(1,0,0);
+initcheck();
+initclickevent();
 //思路2————默认显示一行
 var datashow=new Array(1,0,0,0,0,0,0,0,0);
 changetablediasplay(1,1);
@@ -49,23 +51,32 @@ changetablediasplay(1,1);
 // data.push(sourceData[0]);
 // createtablecontent(1,1);
 
-//默认不勾选
-regions[3].checked=false;
-regions[5].checked=false;
-regions[7].checked=false;
-products[3].checked=false;
-products[5].checked=false;
-products[7].checked=false;
+//初始化画布
+initcanvas();
+//初始化canvas画第一个数据
+drawlinegraph(sourceData[0].sale);
 
-//添加勾选事件
-regions[1].onclick=checkchooseallregion;
-regions[3].onclick=checkchooseallregion;
-regions[5].onclick=checkchooseallregion;
-regions[7].onclick=chooseallregion;
-products[1].onclick=checkchooseallproduct;
-products[3].onclick=checkchooseallproduct;
-products[5].onclick=checkchooseallproduct;
-products[7].onclick=chooseallproduct;
+function initcheck(){
+    //默认不勾选
+    regions[3].checked=false;
+    regions[5].checked=false;
+    regions[7].checked=false;
+    products[3].checked=false;
+    products[5].checked=false;
+    products[7].checked=false;       
+}
+
+function initclickevent(){
+    //添加勾选事件
+    regions[1].onclick=checkchooseallregion;
+    regions[3].onclick=checkchooseallregion;
+    regions[5].onclick=checkchooseallregion;
+    regions[7].onclick=chooseallregion;
+    products[1].onclick=checkchooseallproduct;
+    products[3].onclick=checkchooseallproduct;
+    products[5].onclick=checkchooseallproduct;
+    products[7].onclick=chooseallproduct;   
+}
 
 function checkchooseallregion(){
     var thisvalue =this.value;
@@ -241,11 +252,105 @@ function changetablediasplay(pcount,rcount){
 function mouseovertable(t) {
     //console.log(t.tagName);
     t.style.backgroundColor = "rgb(220,150,150)";
-    console.log(t.id);
+    //console.log(t.id);
+    drawrectgraph(sourceData[t.id].sale);
+    drawlinegraph(sourceData[t.id].sale);
 }
 //滑出行
 function mouseouttable(t) {
     t.style.backgroundColor="white";
+}
+
+function drawrectgraph(sales){
+    var svg=document.getElementById("svg");
+    var rects=svg.getElementsByTagName("rect");
+    
+    for(var i=0;i<12;i++){
+        var h=300-0.3*sales[i];
+        //这里不能用.height或者.style.height来获得height值，可以用.attribute.height来获得，用.setAttribute('','')来修改
+        rects[i].setAttribute('height',300-h)
+        rects[i].setAttribute('y',h)
+    }
+}
+
+function initcanvas(){
+    var can=document.getElementById("line-graph");
+    var ctx=can.getContext("2d");
+
+    ctx.beginPath();
+    ctx.moveTo(50,50);
+    ctx.lineTo(50,300);
+    ctx.strokeStyle="rgb(0,0,0)";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(50,60);
+    ctx.lineTo(550,60);
+    ctx.strokeStyle="rgb(100,100,100)";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(50,120);
+    ctx.lineTo(550,120);
+    ctx.strokeStyle="rgb(100,100,100)";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(50,180);
+    ctx.lineTo(550,180);
+    ctx.strokeStyle="rgb(100,100,100)";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(50,240);
+    ctx.lineTo(550,240);
+    ctx.strokeStyle="rgb(100,100,100)";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(50,300);
+    ctx.lineTo(550,300);
+    ctx.strokeStyle="rgb(0,0,0)";
+    ctx.stroke();
+
+    ctx.font="15px Verdana";
+    ctx.fillText("数量",35,40);
+    ctx.fillText("月份",560,305);
+    ctx.fillText("800",10,65);
+    ctx.fillText("600",10,125);
+    ctx.fillText("400",10,185);
+    ctx.fillText("200",10,245);
+    ctx.fillText("0",10,305);
+    ctx.fillText("1月",60,320);
+    ctx.fillText("2月",100,320);
+    ctx.fillText("3月",140,320);
+    ctx.fillText("4月",180,320);
+    ctx.fillText("5月",220,320);
+    ctx.fillText("6月",260,320);
+    ctx.fillText("7月",300,320);
+    ctx.fillText("8月",340,320);
+    ctx.fillText("9月",380,320);
+    ctx.fillText("10月",420,320);
+    ctx.fillText("11月",460,320);
+    ctx.fillText("12月",500,320);
+}
+
+function drawlinegraph(sales){
+    var can=document.getElementById("line");
+    //重置 canvas 宽高可以清空画布
+    can.width=can.width;
+    var ctx=can.getContext("2d");
+    //console.log(sales);
+    ctx.beginPath();
+    ctx.arc(70,300-0.3*sales[0],3,0,Math.PI*2,true);
+    for(var i=1;i<12;i++){
+            var h=300-0.3*sales[i];
+            ctx.lineTo(67+40*i,h);
+            ctx.moveTo(73+40*i,h);
+            ctx.arc(70+40*i,h,3,0,Math.PI*2,true);
+    }
+    ctx.strokeStyle="rgb(100,100,100)";
+    ctx.stroke();  
 }
 
 

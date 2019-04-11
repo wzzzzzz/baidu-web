@@ -55,6 +55,8 @@ changetablediasplay(1,1);
 initcanvas();
 //初始化canvas画第一个数据
 drawlinegraph(sourceData[0].sale);
+//初始化canvas画全部数据
+drawallline();
 
 function initcheck(){
     //默认不勾选
@@ -255,10 +257,18 @@ function mouseovertable(t) {
     //console.log(t.id);
     drawrectgraph(sourceData[t.id].sale);
     drawlinegraph(sourceData[t.id].sale);
+    var line=document.getElementById("line");
+    line.style.display="block";
+    var lineall=document.getElementById("line-all");
+    lineall.style.display="none";
 }
 //滑出行
 function mouseouttable(t) {
     t.style.backgroundColor="white";
+    var line=document.getElementById("line");
+    line.style.display="none";
+    var lineall=document.getElementById("line-all");
+    lineall.style.display="block";
 }
 
 function drawrectgraph(sales){
@@ -353,7 +363,24 @@ function drawlinegraph(sales){
     ctx.stroke();  
 }
 
-
+function drawallline(){
+    var can=document.getElementById("line-all");
+    var ctx=can.getContext("2d");
+    //console.log(sales);
+    sourceData.forEach(d => {
+        var sales=d.sale;
+        ctx.beginPath();
+        ctx.arc(70,300-0.3*sales[0],3,0,Math.PI*2,true);
+        for(var i=1;i<12;i++){
+                var h=300-0.3*sales[i];
+                ctx.lineTo(67+40*i,h);
+                ctx.moveTo(73+40*i,h);
+                ctx.arc(70+40*i,h,3,0,Math.PI*2,true);
+        }
+        ctx.strokeStyle="rgb(100,100,100)";
+        ctx.stroke();
+    }); 
+}
 //思路1
 // function cleartablecontent(){
 //     var alltrs=table.childNodes;

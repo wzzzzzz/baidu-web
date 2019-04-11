@@ -29,3 +29,6 @@ canvas{
     /* absolute：绝对定位，是相对于它的父元素定位的 */
     position: absolute;
 }
+#line{
+    display: none;
+}

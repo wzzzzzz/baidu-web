@@ -53,8 +53,6 @@ changetablediasplay(1,1);
 
 //初始化画布
 initcanvas();
-//初始化canvas画第一个数据
-drawlinegraph(sourceData[0].sale);
 //初始化canvas画全部数据
 drawallline();
 

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>locationPractice</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    </head>
+    <body>
+        <div>
+            <button id="a" onclick="changehash(this)">A</button>
+            <button id="b" onclick="changehash(this)">B</button>
+            <button id="c" onclick="changehash(this)">C</button>
+            
+            <button id="d" onclick="changehash(this)">D</button>
+            <button id="e" onclick="changehash(this)">E</button>
+            <button id="f" onclick="changehash(this)">F</button>
+                
+            <div id="contABC"></div>
+            <div id="contDEF"></div>                        
+        </div>
+        <script>
+            //changediv();
+            //window.onhashchange=changediv;
+            function changediv(){
+                console.log("0");
+                var content=window.location.hash.substring(1);
+                var div1 = document.getElementById("contABC");
+                var div2 = document.getElementById("contDEF");
+                if(div1.id.indexOf(content)!=-1){
+                    div1.innerHTML=content;
+                }
+                else if(div2.id.indexOf(content)!=-1){
+                    div2.innerHTML=content;
+                }
+            }
+            function changehash(t){
+                console.log("0");
+                var xmlhttp;
+                if(window.XMLHttpRequest){
+                    xmlhttp=XMLHttpRequest;
+                    console.log("1");
+                }
+                else{
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange=function(){
+                    console.log("2");
+                    if(xmlhttp.readyState==4&&statue==200){
+                        //document
+                    }
+                };
+            }
+            
+        </script>
+    </body>
+</html>

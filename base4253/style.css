@@ -1,36 +1,3 @@
 body {
     font-family: "Microsoft YaHei" ;
 }
-table{
-    display: inline-table;
-    border:1px solid black;
-    border-collapse: collapse;
-}
-th{
-    border: 1px solid black;
-    padding: 10px 30px 10px 30px;
-    width: 70px;
-}
-td{
-    border: 1px solid black;
-    text-align: center;
-    height: 35px;
-}
-#graphdiv{
-    display: flex;
-}
-#graph{
-    /* 这种方式两个div不能展示在同一行，会出现换行
-    display: inline-block;
-    width: 50%; */
-    flex:1;
-    min-width: 600px;
-    height: 350px;
-}
-canvas{
-    /* absolute：绝对定位，是相对于它的父元素定位的 */
-    position: absolute;
-}
-#line{
-    display: none;
-}

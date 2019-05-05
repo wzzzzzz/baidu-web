@@ -1,3 +1,7 @@
+var renewmoney = function(){
+    document.getElementById("showmoney").innerHTML="餐厅资金："+myrestaurant.money;
+}
+
 var createRestaurant=(function(){
     var instance=null;
     function restaurant(m,s,c){
@@ -49,6 +53,8 @@ var createWaiter=(function(){
             //点菜
             w.forEach(ww => {
                 dishtodo.push(ww);
+                myrestaurant.money-=ww.cost;
+                renewmoney();
             });
             mychef.work();          
         }
@@ -122,6 +128,7 @@ function guest(){
     this.eating=false;
     this.dishcount=0;
     this.seat=0;
+    this.money=0;
 }
 //点菜
 guest.prototype.order=function(){
@@ -131,6 +138,7 @@ guest.prototype.order=function(){
     for(var i=0;i<amount;i++){
         var ind=Math.floor((Math.random()*10)/2);
         order.push(menu[ind]);
+        this.money+=menu[ind].price;
     }
     console.log("点的菜：");
     console.log(order);
@@ -157,16 +165,19 @@ guest.prototype.eat=function(){
     //用餐结束
     if(this.eating==false&&this.dishtoeat==0){
         console.log("guest用餐结束"+this.seat);
+        myrestaurant.money+=this.money;
+        renewmoney();
         mywaiter.nextguest(this.seat);
         this.seat=-1;
         //delete(this);?????????????????????????????????
     }
 }
 
-function dish(n,c,p){
+function dish(n,c,p,t){
     this.name=n;
     this.cost=c;
     this.price=p;
+    this.cooktime=t;
 }
 
 // var ifeRestaurant = new restaurant(1000000,20,[]);
@@ -178,11 +189,11 @@ function dish(n,c,p){
 // console.log(ifeRestaurant.clerk);
 // console.log(tonychef);
 
-var porridge =new dish("杂粮粥",2,5);
-var vegnoddle=new dish("卤面",13,22);
-var mashi=new dish("麻食",12,20);
-var oilnoddle=new dish("油泼面",8,13);
-var potato=new dish("洋芋擦擦",10,15);
+var porridge =new dish("杂粮粥",2,5,1);
+var vegnoddle=new dish("卤面",13,22,2);
+var mashi=new dish("麻食",12,20,5);
+var oilnoddle=new dish("油泼面",8,13,3);
+var potato=new dish("洋芋擦擦",10,15,4);
 var menu=new Array(porridge,vegnoddle,mashi,oilnoddle,potato);
 
 var guests=new Array();

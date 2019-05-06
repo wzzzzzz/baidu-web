@@ -28,14 +28,31 @@ button{
 }
 
 #kitchen{
-    height: 40%;
+    height: 25%;
     border-bottom: 2px solid black;
     background-image: url(img/kitchen4.jpg);
     background-repeat: repeat;
+    display: flex;
+    padding: 3%;
+    padding-left: 6%;
+    padding-right: 6%;
 }
 
 #dininghall{
-    height: 60%;
+    height: 45%;
     background-image: url(img/dininghall4.jpg);
     background-repeat: repeat;
+    display: flex;
+    /* ???????????????????????????没明白 */
+    padding: 3%;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+#guest{
+    flex: 1;
+}
+
+#tableimg{
+    display: block;
 }

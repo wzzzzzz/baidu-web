@@ -102,6 +102,7 @@ var createChef=(function(){
             var cookingdish=dishtodo.shift();
             var startCookTime=time;
             console.log("做菜"+cookingdish.name);
+            document.getElementById("cookingname").innerHTML="正在做："+cookingdish.name;
             switch (cookingdish.name) {
                 case "杂粮粥": mywaiter.work(cookingdish); break; 
                 case "卤面": mywaiter.work(cookingdish); break;
@@ -139,6 +140,7 @@ guest.prototype.order=function(){
         var ind=Math.floor((Math.random()*10)/2);
         order.push(menu[ind]);
         this.money+=menu[ind].price;
+        document.getElementById("ordername")+=menu[ind].name;
     }
     console.log("点的菜：");
     console.log(order);

@@ -13,7 +13,19 @@ body {
 }
 
 button{
+    width: 8%;
+    min-width: 80px;
+    margin-left: 46%;
+    margin-right: 46%;
+}
 
+#waiter{
+    position: relative;
+    top:-300px;
+    /* background-color: antiquewhite; */
+    height: 140px;
+    padding-left: 6%;
+    padding-right: 6%;
 }
 
 #showarea{
@@ -28,23 +40,24 @@ button{
 }
 
 #kitchen{
-    height: 25%;
+    height: 30%;
     border-bottom: 2px solid black;
     background-image: url(img/kitchen4.jpg);
     background-repeat: repeat;
     display: flex;
-    padding: 3%;
+    padding: 2%;
     padding-left: 6%;
     padding-right: 6%;
 }
 
 #dininghall{
-    height: 45%;
-    background-image: url(img/dininghall4.jpg);
+    height: 28%;
+    background-image: url(img/dininghall2.jpg);
     background-repeat: repeat;
     display: flex;
     /* ???????????????????????????没明白 */
-    padding: 3%;
+    padding-top: 7%;
+    padding-bottom: 2%;
     padding-left: 6%;
     padding-right: 6%;
 }
@@ -53,6 +66,23 @@ button{
     flex: 1;
 }
 
-#tableimg{
-    display: block;
+#cookingname,#ordername{
+    padding-top: 8px;
+}
+
+#todolist{
+    padding-bottom: 8px;
+}
+
+#waiting{
+    width: 85%;
+    height: 125px;
+    background-color: antiquewhite;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#waitingimg{
+    width: 80px;
+    height: 100px;
 }

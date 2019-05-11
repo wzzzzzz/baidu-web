@@ -62,6 +62,7 @@ var createWaiter=(function(){
             console.log("上菜"+w.name);
             //上菜
             guest0.dishtoeat.push(w);
+            
             if(guest0.eating==false){
                 guest0.eat();
             }           
@@ -70,6 +71,12 @@ var createWaiter=(function(){
     //接待下一位客人
     waiter.prototype.nextguest=function(s){
         //delete(g);???????????????????
+        var waiting=document.getElementById("waiting");
+        var waitingimg=waiting.getElementsByTagName("img");
+        if(waitingimg.length>0){
+            waiting.removeChild(waitingimg[0]);
+        }
+
         console.log("nextguest"+s);
         if(guests.length!=0){
             guest0=guests.shift();
@@ -78,6 +85,15 @@ var createWaiter=(function(){
             guest0.order();
         }       
     };
+    waiter.prototype.move=function(d){
+        //d=1表示去向上移动找厨师，d=-1表示向下移动找顾客
+        if(d==1){
+
+        }
+        else{
+            
+        }
+    }
     return {
         getinstance:function(i,n,s){
             if(instance===null)
@@ -92,6 +108,7 @@ var createChef=(function(){
     var chef = function (i,n,s){
         clerk.call(this,i,n,s);
         this.cooking=false;
+        this.status=document.getElementById("chef").getElementsByTagName("div")[0];
         console.log('chef is created!');
     };
     chef.prototype=Object.create(clerk.prototype);
@@ -102,7 +119,7 @@ var createChef=(function(){
             var cookingdish=dishtodo.shift();
             var startCookTime=time;
             console.log("做菜"+cookingdish.name);
-            document.getElementById("cookingname").innerHTML="正在做："+cookingdish.name;
+            this.status.innerHTML="正在做："+cookingdish.name;
             switch (cookingdish.name) {
                 case "杂粮粥": mywaiter.work(cookingdish); break; 
                 case "卤面": mywaiter.work(cookingdish); break;
@@ -111,8 +128,10 @@ var createChef=(function(){
                 case "洋芋擦擦": mywaiter.work(cookingdish); break;
             }
         }
-        if(dishtodo.length==0)
+        if(dishtodo.length==0){
+            this.status.innerHTML="空闲";
             this.cooking=false;
+        }
     };
     return {
         getinstance: function(i,n,s){
@@ -126,33 +145,44 @@ var createChef=(function(){
 
 function guest(){
     this.dishtoeat=new Array();
+    this.dishleft=0;
     this.eating=false;
     this.dishcount=0;
     this.seat=0;
     this.money=0;
+    //document.getElementById("guest").getElementById("ordername");不行
+    this.status=document.getElementById("guest").getElementsByTagName("div")[0];
+    console.log(this.status.innerHTML);
 }
 //点菜
 guest.prototype.order=function(){
-    var amount=1;//Math.floor((Math.random()*10+1)/2);
+    var amount=Math.floor((Math.random()*10+1)/2);
+    this.dishleft=amount;
     console.log("点菜amount"+amount);
     var order=new Array();
+    this.status.innerHTML="点单：";
     for(var i=0;i<amount;i++){
         var ind=Math.floor((Math.random()*10)/2);
         order.push(menu[ind]);
         this.money+=menu[ind].price;
-        document.getElementById("ordername")+=menu[ind].name;
+        this.status.innerHTML+=menu[ind].name+" ";
     }
-    console.log("点的菜：");
-    console.log(order);
+    mywaiter.move(1);
+    this.status.innerHTML[0]="菜";
+    this.status.innerHTML=this.status.innerHTML.replace(/\s/g,"(待上菜) ");
+    console.log(this.status.innerHTML);
     mywaiter.work(order);
 }
 //吃菜
 guest.prototype.eat=function(){
     while(this.dishtoeat.length!=0){
-        var startEatTime=time;
         this.eating=true;
         var eatingdish=this.dishtoeat.shift();
-        console.log("吃菜");
+        var thisdishnameind=this.status.innerHTML.indexOf(eatingdish.name);
+        var left=this.status.innerHTML.substr(0,thisdishnameind);
+        var right=this.status.innerHTML.substr(thisdishnameind+eatingdish.name.length+6);
+        this.status.innerHTML=left+right+eatingdish.name+"(在吃，还剩"+eatingdish.eattime+"分"+") ";
+        console.log(this.status.innerHTML);
         switch (eatingdish.name) {
             case "杂粮粥": break; //while(time-startEatTime<3){}
             case "卤面": break;
@@ -160,13 +190,17 @@ guest.prototype.eat=function(){
             case "油泼面": break;
             case "洋芋擦擦": break;
         }
+        this.dishleft--;
     }
     //没得吃了
-    if(this.dishtoeat.length==0)
-        this.eating=false;
+    if(this.dishtoeat.length==0){
+        this.eating=false;        
+    }
+
     //用餐结束
-    if(this.eating==false&&this.dishtoeat==0){
+    if(this.dishleft==0){
         console.log("guest用餐结束"+this.seat);
+        this.status.innerHTML="用餐结束";
         myrestaurant.money+=this.money;
         renewmoney();
         mywaiter.nextguest(this.seat);
@@ -175,11 +209,12 @@ guest.prototype.eat=function(){
     }
 }
 
-function dish(n,c,p,t){
+function dish(n,c,p,ct,et){
     this.name=n;
     this.cost=c;
     this.price=p;
-    this.cooktime=t;
+    this.cooktime=ct;
+    this.eattime=et;
 }
 
 // var ifeRestaurant = new restaurant(1000000,20,[]);
@@ -191,11 +226,11 @@ function dish(n,c,p,t){
 // console.log(ifeRestaurant.clerk);
 // console.log(tonychef);
 
-var porridge =new dish("杂粮粥",2,5,1);
-var vegnoddle=new dish("卤面",13,22,2);
-var mashi=new dish("麻食",12,20,5);
-var oilnoddle=new dish("油泼面",8,13,3);
-var potato=new dish("洋芋擦擦",10,15,4);
+var porridge =new dish("杂粮粥",2,5,1,3);
+var vegnoddle=new dish("卤面",13,22,2,5);
+var mashi=new dish("麻食",12,20,5,6);
+var oilnoddle=new dish("油泼面",8,13,3,5);
+var potato=new dish("洋芋擦擦",10,15,4,5);
 var menu=new Array(porridge,vegnoddle,mashi,oilnoddle,potato);
 
 var guests=new Array();
@@ -204,14 +239,19 @@ var addguest = function (){
     setInterval(function(){
         console.log(guests.length);
         if(guests.length<MAXguests){
+            var newwaitingguest=document.createElement("img");
+            newwaitingguest.src="img/1.png";
+            newwaitingguest.id="waitingimg";
+            document.getElementById("waiting").appendChild(newwaitingguest);
+
             guests.push(new guest(0));
+            //
             mywaiter.nextguest(1);
         }
     },3000);
 };
 
 var startBunsiness = function (){
-    console.log("0");
     addguest();
     mychef=createChef.getinstance(0,"钱",10000);
     mywaiter=createWaiter.getinstance(0,"赵",4000);
@@ -228,8 +268,6 @@ var timer =function (){
     time++;
     console.log(time);
 };
-
-
 
 
 

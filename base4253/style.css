@@ -28,6 +28,10 @@ button{
     padding-right: 6%;
 }
 
+/* #waiter img{
+    margin-top: 60px;
+} */
+
 #showarea{
     width: 85%;
     min-width: 600px;
@@ -44,10 +48,13 @@ button{
     border-bottom: 2px solid black;
     background-image: url(img/kitchen4.jpg);
     background-repeat: repeat;
-    display: flex;
     padding: 2%;
     padding-left: 6%;
     padding-right: 6%;
+}
+
+#chefs{
+    display: flex;
 }
 
 #dininghall{

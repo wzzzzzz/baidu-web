@@ -73,17 +73,22 @@ var createWaiter=(function(){
                 guest0.dishtoeat.push(w);            
                 if(guest0.eating==false){
                     guest0.eat();
-                } 
-                return thiswaiter;
-            }).then(function(thiswaiter){
-                //thiswaiter.move(1);
+                }
+                if(dishtodo.length!=0 || mychef.cooking==true){
+                    var pro=new Promise(function(resolve){
+                        setTimeout(resolve,1000,thiswaiter);
+                    });
+                    pro.then(function(thiswaiter){
+                        thiswaiter.move(1);
+                    });
+                }
             });     
         }
     };
     //接待下一位客人
     waiter.prototype.nextguest=function(s){
         //delete(g);???????????????????
-        mywaiter.move(-1);
+        //mywaiter.move(-1);
 
         var waiting=document.getElementById("waiting");
         var waitingimg=waiting.getElementsByTagName("img");
@@ -133,6 +138,7 @@ var createChef=(function(){
     chef.prototype.work=function(){
         //做菜
         if(dishtodo.length!=0){
+            this.cooking=true;
             var cooking=dishtodo.shift();
             dishstate();
             console.log("做菜"+cooking.name);
@@ -180,8 +186,11 @@ function dishstate(){
 }
 
 function guest(){
+    //记录当前上了的菜
     this.dishtoeat=new Array();
+    //记录剩下的还没上的菜的数量
     this.dishleft=0;
+    //记录所有点的菜
     this.dishtoshow=new Array();
     this.eating=false;
     this.dishcount=0;
@@ -221,6 +230,7 @@ guest.prototype.eat=function(){
         var eatingdish=this.dishtoeat.shift();
         eatingdish.state=1;
         gueststate(guest0);
+        guest0.dishleft--;
         console.log(this.status.innerHTML);
         var pro=new Promise(function(resolve, reject){
             setTimeout(resolve,3000,eatingdish);
@@ -235,18 +245,17 @@ guest.prototype.eat=function(){
     }
     //没得吃了
     else{
-        this.eating=false;        
-    }
-
-    //用餐结束
-    if(this.dishleft==0){
-        console.log("guest用餐结束"+this.seat);
-        this.status.innerHTML="用餐结束";
-        myrestaurant.money+=this.money;
-        renewmoney();
-        mywaiter.nextguest(this.seat);
-        this.seat=-1;
-        //delete(this);?????????????????????????????????
+        this.eating=false;  
+            //用餐结束
+        if(this.dishleft==0){
+            console.log("guest用餐结束"+this.seat);
+            this.status.innerHTML="用餐结束";
+            myrestaurant.money+=this.money;
+            renewmoney();
+            mywaiter.nextguest(this.seat);
+            this.seat=-1;
+            //delete(this);?????????????????????????????????
+        }      
     }
 }
 
@@ -255,7 +264,6 @@ function guestpromise(eatingdish){
 
     eatingdish.state=2;
     gueststate(guest0);
-    guest0.dishleft--;
     guest0.eat();
 }
 

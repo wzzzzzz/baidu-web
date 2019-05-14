@@ -89,20 +89,32 @@ var createWaiter=(function(){
     waiter.prototype.nextguest=function(s){
         //delete(g);???????????????????
         //mywaiter.move(-1);
-
-        var waiting=document.getElementById("waiting");
-        var waitingimg=waiting.getElementsByTagName("img");
-        if(waitingimg.length>0){
-            waiting.removeChild(waitingimg[0]);
-        }
-
-        console.log("nextguest"+s);
-        if(guests.length!=0){
-            guest0=guests.shift();
-            //分配座位
-            guest0.seat=s;
-            guest0.order();
-        }       
+        var guestimg=document.getElementById("guest").getElementsByTagName("img")[0];
+        guestimg.src="img/0.png";
+        var pro=new Promise(function(resolve){
+            setTimeout(resolve,1000,s);
+        });
+        pro.then(function(s){
+            var waiting=document.getElementById("waiting");
+            var waitingimg=waiting.getElementsByTagName("img");
+            
+            if(waitingimg.length>0){
+                console.log("waitingimg.length>0");
+                guestimg.src=waitingimg[0].src;
+                waiting.removeChild(waitingimg[0]);
+            }
+            else{
+                console.log("waitingimg.length<0");
+                guestimg.src="img/1.png";
+            }
+            console.log("nextguest"+s);
+            if(guests.length!=0){
+                guest0=guests.shift();
+                //分配座位
+                guest0.seat=s;
+                guest0.order();
+            }  
+        });
     };
     waiter.prototype.move=function(d){
         var waiterimg=document.getElementById("waiter").getElementsByTagName("img")[0];
@@ -207,7 +219,7 @@ guest.prototype.order=function(){
     });
 
     pro.then(function(thisguest){
-        var amount=Math.floor((Math.random()*10+1)/2);
+        var amount=Math.floor((Math.random()*10)/2)+1;
         thisguest.dishleft=amount;
         console.log("点菜amount"+amount);
         var order=new Array();
@@ -311,31 +323,48 @@ var potato=new dish("洋芋擦擦",10,15,4,5);
 var menu=new Array(porridge,vegnoddle,mashi,oilnoddle,potato);
 
 var guests=new Array();
-var MAXguests=1;
+var MAXguests=3;
 var addguest = function (){
-    setInterval(function(){
-        console.log(guests.length);
+    var pro=new Promise(function(resolve){
+        setTimeout(resolve,3000);
+    });
+
+    pro.then(function(){
+        console.log("addguest");
         if(guests.length<MAXguests){
             var newwaitingguest=document.createElement("img");
-            newwaitingguest.src="img/1.png";
+            var ind=Math.ceil(Math.random()*5);
+            newwaitingguest.src="img/"+ind+".png";
             newwaitingguest.id="waitingimg";
             document.getElementById("waiting").appendChild(newwaitingguest);
-
-            guests.push(new guest(0));
-            //
-            mywaiter.nextguest(1);
+            guests.push(new guest(0));         
         }
-    },3000);
+        addguest();
+    });
 };
 
+var payoff = function() {
+    var pro=new Promise(function(resolve){
+        setTimeout(resolve,12000);
+    });
+    pro.then(function(){
+        console.log("发工资了！");
+        myrestaurant.money-=mychef.money;
+        myrestaurant.money-=mywaiter.money;
+        renewmoney();
+        payoff();
+    });
+}
+
 var startBunsiness = function (){
-    //addguest();
-    mychef=createChef.getinstance(0,"钱",10000);
+    mychef=createChef.getinstance(0,"钱",8000);
     mywaiter=createWaiter.getinstance(0,"赵",4000);
-    myrestaurant=createRestaurant.getinstance(10000,1,new Array(mywaiter,mychef));
+    myrestaurant=createRestaurant.getinstance(100000,1,new Array(mywaiter,mychef));
     dishtodo=new Array();
     time=0;
     //setInterval(function(){timer();},1000);
+    addguest();
+    payoff();
     guests.push(new guest(0));
     guest0=null;//当前服务的顾客
     mywaiter.nextguest(1);

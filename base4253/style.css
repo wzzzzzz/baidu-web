@@ -19,28 +19,22 @@ button{
     margin-right: 46%;
 }
 
-#waiter{
-    position: relative;
-    top:-300px;
-    /* background-color: antiquewhite; */
-    height: 140px;
-    padding-left: 6%;
-    padding-right: 6%;
+#todolist{
+    text-align: center;
 }
-
-/* #waiter img{
-    margin-top: 60px;
-} */
 
 #showarea{
     width: 85%;
     min-width: 600px;
     height: 500px;
-    border: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
     margin-left: 5%;
     margin-right: 5%;
     margin-top: 20px;
     padding: 2.5%;
+    background-color: antiquewhite;
 }
 
 #kitchen{
@@ -56,6 +50,19 @@ button{
 #chefs{
     display: flex;
 }
+
+#waiter{
+    position: relative;
+    top:-320px;
+    /* background-color: antiquewhite; */
+    height: 140px;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+/* #waiter img{
+    margin-top: 60px;
+} */
 
 #dininghall{
     height: 28%;
@@ -83,13 +90,20 @@ button{
 
 #waiting{
     width: 85%;
-    height: 125px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 120px;
     background-color: antiquewhite;
     margin-left: 5%;
     margin-right: 5%;
+    padding: 2.5%;
+    padding-top: 0px;
+    padding-bottom: 20px;
 }
 
-#waitingimg{
+#waiting img{
     width: 80px;
     height: 100px;
+    padding-right: 10px;
 }

@@ -25,7 +25,7 @@ button{
 
 #showarea{
     width: 85%;
-    min-width: 600px;
+    min-width: 1000px;
     height: 500px;
     border-top: 1px solid black;
     border-left: 1px solid black;
@@ -34,15 +34,17 @@ button{
     margin-right: 5%;
     margin-top: 20px;
     padding: 2.5%;
+    padding-top: 45px;
+    padding-bottom: 45px;
     background-color: antiquewhite;
 }
 
 #kitchen{
-    height: 30%;
+    height: 150px;
     border-bottom: 2px solid black;
     background-image: url(img/kitchen4.jpg);
     background-repeat: repeat;
-    padding: 2%;
+    padding: 10px;
     padding-left: 6%;
     padding-right: 6%;
 }
@@ -53,7 +55,7 @@ button{
 
 #waiter{
     position: relative;
-    top:-320px;
+    top:-300px;
     /* background-color: antiquewhite; */
     height: 140px;
     padding-left: 6%;
@@ -65,18 +67,18 @@ button{
 } */
 
 #dininghall{
-    height: 28%;
+    height: 140px;
     background-image: url(img/dininghall2.jpg);
     background-repeat: repeat;
     display: flex;
-    /* ???????????????????????????没明白 */
-    padding-top: 7%;
-    padding-bottom: 2%;
+    /* ???????????????????????????没明白这里怎么算的 */
+    padding-top: 100px;
+    padding-bottom: 40px;
     padding-left: 6%;
     padding-right: 6%;
 }
 
-#guest{
+#seat{
     flex: 1;
 }
 
@@ -84,12 +86,18 @@ button{
     padding-top: 8px;
 }
 
+/* #ordername{
+    text-align: center;
+    padding-right: 30px;
+} */
+
 #todolist{
     padding-bottom: 8px;
 }
 
 #waiting{
     width: 85%;
+    min-width: 1000px;
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;

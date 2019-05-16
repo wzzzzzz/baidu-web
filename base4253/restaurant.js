@@ -62,6 +62,7 @@ var createWaiter=(function(){
                     myrestaurant.money-=ww.cost;
                     renewmoney();
                 });
+                dishstate();
                 mychef.work(); 
             });       
         }
@@ -89,7 +90,7 @@ var createWaiter=(function(){
     waiter.prototype.nextguest=function(s){
         //delete(g);???????????????????
         //mywaiter.move(-1);
-        var guestimg=document.getElementById("guest").getElementsByTagName("img")[0];
+        var guestimg=document.getElementById("seat").getElementsByTagName("img")[0];
         guestimg.src="img/0.png";
         var pro=new Promise(function(resolve){
             setTimeout(resolve,1000,s);
@@ -152,7 +153,6 @@ var createChef=(function(){
         if(dishtodo.length!=0){
             this.cooking=true;
             var cooking=dishtodo.shift();
-            dishstate();
             console.log("做菜"+cooking.name);
             this.status.innerHTML="正在做："+ cooking.name;
             var pro=new Promise(function(resolve, reject){
@@ -183,7 +183,7 @@ var createChef=(function(){
 
 function chefpromise(cookingdish){//只能传一个参数
     console.log("做好了"+cookingdish.name);
-
+    dishstate();
     cookingdish.state=1;
     mywaiter.work(cookingdish); 
     mychef.work();
@@ -208,11 +208,12 @@ function guest(){
     this.dishcount=0;
     this.seat=0;
     this.money=0;
-    //document.getElementById("guest").getElementById("ordername");不行
-    this.status=document.getElementById("guest").getElementsByTagName("div")[0];
+    //document.getElementById("seat").getElementById("ordername");不行
+    this.status=document.getElementById("seat").getElementsByTagName("div")[0];
 }
 //点菜
 guest.prototype.order=function(){
+    this.status.innerHTML="点菜中";
     var thisguest=this;
     var pro=new Promise(function(resolve){
         setTimeout(resolve,2000,thisguest);

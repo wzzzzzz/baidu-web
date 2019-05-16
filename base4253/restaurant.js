@@ -53,10 +53,10 @@ var createWaiter=(function(){
             setTimeout(resolve,1000,thiswaiter);
         });
         if(w instanceof Array){
+            thiswaiter.move(1);
             pro.then(function(thiswaiter){
                 console.log("点菜"+dishtodo);
-                //点菜
-                thiswaiter.move(1);
+                //点菜               
                 w.forEach(ww => {
                     dishtodo.push(ww);
                     myrestaurant.money-=ww.cost;
@@ -67,21 +67,16 @@ var createWaiter=(function(){
             });       
         }
         else{
+            thiswaiter.move(-1);
             pro.then(function(thiswaiter){
                 console.log("上菜"+w.name);
                 //上菜
-                thiswaiter.move(-1);
                 guest0.dishtoeat.push(w);            
                 if(guest0.eating==false){
                     guest0.eat();
                 }
                 if(dishtodo.length!=0 || mychef.cooking==true){
-                    var pro=new Promise(function(resolve){
-                        setTimeout(resolve,1000,thiswaiter);
-                    });
-                    pro.then(function(thiswaiter){
-                        thiswaiter.move(1);
-                    });
+                    thiswaiter.move(1);
                 }
             });     
         }
@@ -100,12 +95,10 @@ var createWaiter=(function(){
             var waitingimg=waiting.getElementsByTagName("img");
             
             if(waitingimg.length>0){
-                console.log("waitingimg.length>0");
                 guestimg.src=waitingimg[0].src;
                 waiting.removeChild(waitingimg[0]);
             }
             else{
-                console.log("waitingimg.length<0");
                 guestimg.src="img/1.png";
             }
             console.log("nextguest"+s);
@@ -121,12 +114,34 @@ var createWaiter=(function(){
         var waiterimg=document.getElementById("waiter").getElementsByTagName("img")[0];
         //d=1表示去向上移动找厨师，d=-1表示向下移动找顾客
         if(d==1){
-            console.log("找厨师");
             waiterimg.style.marginTop="0px";
+            //可以，但是有时候有问题
+            // var up = setInterval(() => {
+            //     var now=parseInt(waiterimg.style.marginTop.substring(0,waiterimg.style.marginTop.length-2));
+            //     if(now<=0)
+            //         clearInterval(up);
+            //     if(isNaN(now)){
+            //         waiterimg.style.marginTop="6px";
+            //     }
+            //     else {
+            //         waiterimg.style.marginTop=now-6+"px";
+            //     }
+            // }, 100);
         }
         else{
-            console.log("找客人");
             waiterimg.style.marginTop="60px";
+            //可以，但是有时候有问题
+            // var down = setInterval(() => {
+            //     var now=parseInt(waiterimg.style.marginTop.substring(0,waiterimg.style.marginTop.length-2));
+            //     if(now>=60)
+            //         clearInterval(down);
+            //     if(isNaN(now)){
+            //         waiterimg.style.marginTop="6px";
+            //     }
+            //     else {
+            //         waiterimg.style.marginTop=now+6+"px";
+            //     }
+            // }, 100);
         }
     }
     return {
@@ -215,24 +230,25 @@ function guest(){
 guest.prototype.order=function(){
     this.status.innerHTML="点菜中";
     var thisguest=this;
+    var amount=Math.floor((Math.random()*10)/2)+1;
+    thisguest.dishleft=amount;
+    console.log("点菜amount"+amount);
+    var order=new Array();
+    //console.log(order);
+    for(var i=0;i<amount;i++){
+        var ind=Math.floor((Math.random()*10)/2);
+        order.push(menu[ind]);
+        thisguest.money+=menu[ind].price;
+        thisguest.status.innerHTML+=menu[ind].name+" ";
+        thisguest.dishtoshow.push(menu[ind]);
+    }
+    gueststate(guest0);
+
     var pro=new Promise(function(resolve){
         setTimeout(resolve,2000,thisguest);
     });
-
     pro.then(function(thisguest){
-        var amount=Math.floor((Math.random()*10)/2)+1;
-        thisguest.dishleft=amount;
-        console.log("点菜amount"+amount);
-        var order=new Array();
-        //console.log(order);
-        for(var i=0;i<amount;i++){
-            var ind=Math.floor((Math.random()*10)/2);
-            order.push(menu[ind]);
-            thisguest.money+=menu[ind].price;
-            thisguest.status.innerHTML+=menu[ind].name+" ";
-            thisguest.dishtoshow.push(menu[ind]);
-        }
-        gueststate(guest0);
+
         mywaiter.work(order);
     })
 }

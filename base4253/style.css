@@ -70,7 +70,7 @@ button{
     height: 140px;
     background-image: url(img/dininghall2.jpg);
     background-repeat: repeat;
-    display: flex;
+    /* display: flex; */
     /* ???????????????????????????没明白这里怎么算的 */
     padding-top: 100px;
     padding-bottom: 40px;
@@ -78,8 +78,9 @@ button{
     padding-right: 6%;
 }
 
-#seat{
-    flex: 1;
+.seat{
+    width: 19%;
+    display: inline-block;
 }
 
 #cookingname,#ordername{

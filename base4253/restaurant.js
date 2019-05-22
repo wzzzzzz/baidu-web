@@ -55,10 +55,19 @@ var createWaiter=(function(){
         if(w instanceof Array){
             thiswaiter.move(1);
             pro.then(function(thiswaiter){
-                console.log("点菜"+dishtodo);
                 //点菜               
                 w.forEach(ww => {
-                    dishtodo.push(ww);
+                    console.log("点菜"+ww.name);
+                    var flag=false;
+                    for(var i=0;i<dishtodo.length;i++){
+                        if(dishtodo[i][0].name==ww.name){
+                            dishtodo[i].push(ww);
+                            flag=true;
+                        }
+                    }
+                    if(!flag){
+                        dishtodo.push(new Array [ww] );//这里不知道语法对不对
+                    }                  
                     myrestaurant.money-=ww.cost;
                     renewmoney();
                 });
@@ -172,8 +181,8 @@ var createChef=(function(){
         if(dishtodo.length!=0){
             this.cooking=true;
             var cooking=dishtodo.shift();
-            console.log("做菜"+cooking.name);
-            this.status.innerHTML="正在做："+ cooking.name;
+            console.log("做菜"+cooking[0].name);
+            this.status.innerHTML="正在做："+ cooking[0].name;
             var pro=new Promise(function(resolve, reject){
                 setTimeout(resolve,3000,cooking);
             });
@@ -203,8 +212,10 @@ var createChef=(function(){
 function chefpromise(cookingdish){//只能传一个参数
     console.log("做好了"+cookingdish.name);
     dishstate();
-    cookingdish.state=1;
-    mywaiter.work(cookingdish); 
+    cookingdish.forEach(c => {
+        c.state=1;
+        mywaiter.work(c); 
+    });   
     mychef.work();
 }
 
@@ -212,7 +223,9 @@ function dishstate(){
     var state=document.getElementById("todolist");
     state.innerHTML="待做菜：";
     dishtodo.forEach(dishs => {
-        state.innerHTML+=dishs.name+" ";
+        for(var i=0;i<dishs.length;i++){
+            state.innerHTML+=dishs[i].name+" ";
+        }
     });
 }
 

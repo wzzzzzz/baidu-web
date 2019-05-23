@@ -60,15 +60,23 @@ var createWaiter=(function(){
             if(w instanceof Array){
                 thiswaiter.move(1);
                 pro.then(function(thiswaiter){
-                    console.log("点菜"+dishtodo);
                     //点菜               
                     w.forEach(ww => {
-                        dishtodo.push(ww);
+                        console.log("点菜"+ww.name);
+                        var flag=false;
+                        for(var i=0;i<dishtodo.length;i++){
+                            if(dishtodo[i][0].name==ww.name){
+                                dishtodo[i].push(ww);
+                                flag=true;
+                            }
+                        }
+                        if(!flag){
+                            dishtodo.push(new Array [ww] );//这里不知道语法对不对
+                        }                  
                         myrestaurant.money-=ww.cost;
                         renewmoney();
                     });
                     dishstate();
-                    thiswaiter.state=0;
                     mychef.work(); 
                 });       
             }
@@ -77,8 +85,7 @@ var createWaiter=(function(){
                 pro.then(function(thiswaiter){
                     console.log("上菜"+w.name);
                     //上菜
-                    guest0.dishtoeat.push(w);
-                    thiswaiter.state=0;            
+                    guest0.dishtoeat.push(w);            
                     if(guest0.eating==false){
                         guest0.eat();
                     }
@@ -98,11 +105,12 @@ var createWaiter=(function(){
             });     
         }
     };
-    //对座位s接待下一位客人
+    //接待下一位客人
     waiter.prototype.nextguest=function(s){
         //delete(g);???????????????????
         //mywaiter.move(-1);
-        var guestimg=document.getElementById("seat").getElementsByTagName("img")[0];
+        console.log(document.getElementsByClassName("seat"));
+        var guestimg=document.getElementsByClassName("seat")[parseInt(s)].getElementsByTagName("img")[0];
         guestimg.src="img/0.png";
         var pro=new Promise(function(resolve){
             setTimeout(resolve,1000,s);
@@ -123,6 +131,9 @@ var createWaiter=(function(){
                 guest0=guests.shift();
                 //分配座位
                 guest0.seat=s;
+                guest0.status=document.getElementsByClassName("seat")[parseInt(s)].getElementsByTagName("div")[0];
+                eatingguests++;
+                console.log(eatingguests);
                 guest0.order();
             }  
         });
@@ -185,8 +196,8 @@ var createChef=(function(){
         if(dishtodo.length!=0){
             this.cooking=true;
             var cooking=dishtodo.shift();
-            console.log("做菜"+cooking.name);
-            this.status.innerHTML="正在做："+ cooking.name;
+            console.log("做菜"+cooking[0].name);
+            this.status.innerHTML="正在做："+ cooking[0].name;
             var pro=new Promise(function(resolve, reject){
                 setTimeout(resolve,3000,cooking);
             });
@@ -216,8 +227,10 @@ var createChef=(function(){
 function chefpromise(cookingdish){//只能传一个参数
     console.log("做好了"+cookingdish.name);
     dishstate();
-    cookingdish.state=1;
-    mywaiter.work(cookingdish); 
+    cookingdish.forEach(c => {
+        c.state=1;
+        mywaiter.work(c); 
+    });   
     mychef.work();
 }
 
@@ -225,7 +238,9 @@ function dishstate(){
     var state=document.getElementById("todolist");
     state.innerHTML="待做菜：";
     dishtodo.forEach(dishs => {
-        state.innerHTML+=dishs.name+" ";
+        for(var i=0;i<dishs.length;i++){
+            state.innerHTML+=dishs[i].name+" ";
+        }
     });
 }
 
@@ -240,32 +255,31 @@ function guest(){
     this.dishcount=0;
     this.seat=0;
     this.money=0;
-    //document.getElementById("seat").getElementById("ordername");不行
-    this.status=document.getElementById("seat").getElementsByTagName("div")[0];
+    //document.getElementsByClassName("seat").getElementById("ordername");不行
+    this.status;
 }
 //点菜
 guest.prototype.order=function(){
     this.status.innerHTML="点菜中";
     var thisguest=this;
-    var amount=Math.floor((Math.random()*10)/2)+1;
-    thisguest.dishleft=amount;
-    console.log("点菜amount"+amount);
-    var order=new Array();
-    //console.log(order);
-    for(var i=0;i<amount;i++){
-        var ind=Math.floor((Math.random()*10)/2);
-        order.push(menu[ind]);
-        thisguest.money+=menu[ind].price;
-        thisguest.status.innerHTML+=menu[ind].name+" ";
-        thisguest.dishtoshow.push(menu[ind]);
-    }
-    gueststate(guest0);
 
     var pro=new Promise(function(resolve){
         setTimeout(resolve,2000,thisguest);
     });
     pro.then(function(thisguest){
-
+        var amount=Math.floor((Math.random()*10)/2)+1;
+        thisguest.dishleft=amount;
+        //console.log("点菜amount"+amount);
+        var order=new Array();
+        //console.log(order);
+        for(var i=0;i<amount;i++){
+            var ind=Math.floor((Math.random()*10)/2);
+            order.push(menu[ind]);
+            thisguest.money+=menu[ind].price;
+            thisguest.status.innerHTML+=menu[ind].name+" ";
+            thisguest.dishtoshow.push(menu[ind]);
+        }
+        gueststate(guest0);
         mywaiter.work(order);
     })
 }
@@ -292,14 +306,15 @@ guest.prototype.eat=function(){
     //没得吃了
     else{
         this.eating=false;  
-            //用餐结束
+        //用餐结束
         if(this.dishleft==0){
             console.log("guest用餐结束"+this.seat);
             this.status.innerHTML="用餐结束";
             myrestaurant.money+=this.money;
             renewmoney();
+            eatingguests--;
             mywaiter.nextguest(this.seat);
-            this.seat=-1;
+            this.seat=-1;           
             //delete(this);?????????????????????????????????
         }      
     }
@@ -356,32 +371,29 @@ var oilnoddle=new dish("油泼面",8,13,3,5);
 var potato=new dish("洋芋擦擦",10,15,4,5);
 var menu=new Array(porridge,vegnoddle,mashi,oilnoddle,potato);
 
-var waitingguests=new Array();
-var eatingguests=new Array();
-var seats=5;
-var MAXwaitingguests=5;
+var guests=new Array();
+var MAXwaitingguests=3;
+var eatingguests=0;
 var addguest = function (){
     var pro=new Promise(function(resolve){
-        var ramdomtime=Math.ceil(Math.random()*5);
-        setTimeout(resolve,ramdomtime*1000);
+        setTimeout(resolve,3000);
     });
 
     pro.then(function(){
         console.log("addguest");
-        if(eatingguests.length<5){
-            var newguest=document.createElement("img");
+
+        if(guests.length<MAXwaitingguests){
+            var newwaitingguest=document.createElement("img");
             var ind=Math.ceil(Math.random()*5);
-            newguest.src="img/"+ind+".png";
-            waitingguests.push(new guest(0));     
-        }
-        else if(waitingguests.length<MAXwaitingguests){
-            var newguest=document.createElement("img");
-            var ind=Math.ceil(Math.random()*5);
-            newguest.src="img/"+ind+".png";
-            newguest.id="waitingimg";
+            newwaitingguest.src="img/"+ind+".png";
+            newwaitingguest.id="waitingimg";
             document.getElementById("waiting").appendChild(newwaitingguest);
-            waitingguests.push(new guest(0));         
+            guests.push(new guest(0));         
         }
+        if(eatingguests<6){
+            mywaiter.nextguest(eatingguests);
+        }
+
         addguest();
     });
 };
@@ -409,9 +421,11 @@ var startBunsiness = function (){
     addguest();
     payoff();
     guests.push(new guest(0));
-    //guest0=null;//当前服务的顾客
-    //mywaiter.nextguest(1);
+    guest0=null;//当前服务的顾客
+    mywaiter.nextguest(0);
+    console.log(eatingguests);
 };
+
 
 
 

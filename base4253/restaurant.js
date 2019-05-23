@@ -50,8 +50,8 @@ var createWaiter=(function(){
     waiter.prototype=Object.create(clerk.prototype);
     waiter.prototype.constructor =waiter;
     waiter.prototype.work=function(w){
+        var thiswaiter=this;
         if(this.state==0){
-            var thiswaiter=this;
             this.state=1;
             //点菜和上菜都要花1秒
             var pro=new Promise(function(resolve){
@@ -71,7 +71,7 @@ var createWaiter=(function(){
                             }
                         }
                         if(!flag){
-                            dishtodo.push(new Array [ww] );//这里不知道语法对不对
+                            dishtodo.push(new Array (ww) );
                         }                  
                         myrestaurant.money-=ww.cost;
                         renewmoney();
@@ -85,9 +85,9 @@ var createWaiter=(function(){
                 pro.then(function(thiswaiter){
                     console.log("上菜"+w.name);
                     //上菜
-                    guest0.dishtoeat.push(w);            
-                    if(guest0.eating==false){
-                        guest0.eat();
+                    w.guest.dishtoeat.push(w);            
+                    if(w.guest.eating==false){
+                        w.guest.eat();
                     }
                     if(dishtodo.length!=0 || mychef.cooking==true){
                         thiswaiter.move(1);
@@ -109,7 +109,6 @@ var createWaiter=(function(){
     waiter.prototype.nextguest=function(s){
         //delete(g);???????????????????
         //mywaiter.move(-1);
-        console.log(document.getElementsByClassName("seat"));
         var guestimg=document.getElementsByClassName("seat")[parseInt(s)].getElementsByTagName("img")[0];
         guestimg.src="img/0.png";
         var pro=new Promise(function(resolve){
@@ -133,7 +132,6 @@ var createWaiter=(function(){
                 guest0.seat=s;
                 guest0.status=document.getElementsByClassName("seat")[parseInt(s)].getElementsByTagName("div")[0];
                 eatingguests++;
-                console.log(eatingguests);
                 guest0.order();
             }  
         });
@@ -201,7 +199,7 @@ var createChef=(function(){
             var pro=new Promise(function(resolve, reject){
                 setTimeout(resolve,3000,cooking);
             });
-            switch (cooking.name) {
+            switch (cooking[0].name) {
                 case "杂粮粥": pro.then(chefpromise);break; 
                 case "卤面": pro.then(chefpromise); break;
                 case "麻食": pro.then(chefpromise); break;
@@ -274,12 +272,20 @@ guest.prototype.order=function(){
         //console.log(order);
         for(var i=0;i<amount;i++){
             var ind=Math.floor((Math.random()*10)/2);
-            order.push(menu[ind]);
-            thisguest.money+=menu[ind].price;
-            thisguest.status.innerHTML+=menu[ind].name+" ";
-            thisguest.dishtoshow.push(menu[ind]);
+            var newdish;
+            switch (ind) {
+                case 0: newdish=new porridge(thisguest);break;
+                case 1: newdish=new vegnoddle(thisguest);break;
+                case 2: newdish=new mashi(thisguest);break;
+                case 3: newdish=new oilnoddle(thisguest);break;
+                case 4: newdish=new potato(thisguest);break;
+            }
+            order.push(newdish);
+            thisguest.money+=newdish.price;
+            thisguest.status.innerHTML+=newdish.name+" ";
+            thisguest.dishtoshow.push(newdish);
         }
-        gueststate(guest0);
+        gueststate(this);
         mywaiter.work(order);
     })
 }
@@ -289,18 +295,19 @@ guest.prototype.eat=function(){
         this.eating=true;
         var eatingdish=this.dishtoeat.shift();
         eatingdish.state=1;
-        gueststate(guest0);
-        guest0.dishleft--;
+        gueststate(this);
+        this.dishleft--;
         console.log(this.status.innerHTML);
+        var thisguest=this;
         var pro=new Promise(function(resolve, reject){
-            setTimeout(resolve,3000,eatingdish);
+            setTimeout(resolve,3000,thisguest);
         });
         switch (eatingdish.name) {
-            case "杂粮粥": pro.then(guestpromise); break;
-            case "卤面": pro.then(guestpromise); break;
-            case "麻食": pro.then(guestpromise); break;
-            case "油泼面": pro.then(guestpromise); break;
-            case "洋芋擦擦": pro.then(guestpromise); break;
+            case "杂粮粥": eatingdish.state=2; pro.then(guestpromise); break;
+            case "卤面": eatingdish.state=2; pro.then(guestpromise); break;
+            case "麻食": eatingdish.state=2; pro.then(guestpromise); break;
+            case "油泼面": eatingdish.state=2; pro.then(guestpromise); break;
+            case "洋芋擦擦": eatingdish.state=2; pro.then(guestpromise); break;
         }
     }
     //没得吃了
@@ -320,12 +327,10 @@ guest.prototype.eat=function(){
     }
 }
 
-function guestpromise(eatingdish){
-    console.log("吃完了"+eatingdish.name);
-
-    eatingdish.state=2;
-    gueststate(guest0);
-    guest0.eat();
+function guestpromise(thisguest){
+    console.log("吃完了"+eatingdish.name);   
+    gueststate(thisguest);
+    thisguest.eat();
 }
 
 function gueststate(guest){
@@ -353,6 +358,7 @@ function dish(n,c,p,ct,et){
     this.cooktime=ct;
     this.eattime=et;
     this.state=0;//0表示正在做，1表示正在吃，2表示吃完了
+    this.guest;
 }
 
 // var ifeRestaurant = new restaurant(1000000,20,[]);
@@ -364,12 +370,39 @@ function dish(n,c,p,ct,et){
 // console.log(ifeRestaurant.clerk);
 // console.log(tonychef);
 
-var porridge =new dish("杂粮粥",2,5,1,3);
-var vegnoddle=new dish("卤面",13,22,2,5);
-var mashi=new dish("麻食",12,20,5,6);
-var oilnoddle=new dish("油泼面",8,13,3,5);
-var potato=new dish("洋芋擦擦",10,15,4,5);
-var menu=new Array(porridge,vegnoddle,mashi,oilnoddle,potato);
+//这样写是不对的，后面的引用全都是直接用了这个实例，任何修改都会影响到这个实例。
+// var porridge =new dish("杂粮粥",2,5,1,3);
+// var vegnoddle=new dish("卤面",13,22,2,5);
+// var mashi=new dish("麻食",12,20,5,6);
+// var oilnoddle=new dish("油泼面",8,13,3,5);
+// var potato=new dish("洋芋擦擦",10,15,4,5);
+// var menu=new Array(porridge,vegnoddle,mashi,oilnoddle,potato);
+//应该把这几种菜都写成类，作为dish的子类
+var porridge = function(){
+    dish.call(this,"杂粮粥",2,5,1,3);
+    this.prototype=Object.create(dish.prototype);
+    this.prototype.constructor = porridge;
+};
+var vegnoddle = function(){
+    dish.call(this,"卤面",13,22,2,5);
+    this.prototype=Object.create(dish.prototype);
+    this.prototype.constructor = vegnoddle;
+};
+var mashi = function(){
+    dish.call(this,"麻食",12,20,5,6);
+    this.prototype=Object.create(dish.prototype);
+    this.prototype.constructor = mashi;
+};
+var oilnoddle = function(){
+    dish.call(this,"油泼面",8,13,3,5);
+    this.prototype=Object.create(dish.prototype);
+    this.prototype.constructor = oilnoddle;
+};
+var potato = function(){
+    dish.call(this,"洋芋擦擦",10,15,4,5);
+    this.prototype=Object.create(dish.prototype);
+    this.prototype.constructor = potato;
+};
 
 var guests=new Array();
 var MAXwaitingguests=3;
@@ -381,7 +414,6 @@ var addguest = function (){
 
     pro.then(function(){
         console.log("addguest");
-
         if(guests.length<MAXwaitingguests){
             var newwaitingguest=document.createElement("img");
             var ind=Math.ceil(Math.random()*5);
@@ -390,7 +422,7 @@ var addguest = function (){
             document.getElementById("waiting").appendChild(newwaitingguest);
             guests.push(new guest(0));         
         }
-        if(eatingguests<6){
+        if(eatingguests<5){
             mywaiter.nextguest(eatingguests);
         }
 
@@ -423,7 +455,6 @@ var startBunsiness = function (){
     guests.push(new guest(0));
     guest0=null;//当前服务的顾客
     mywaiter.nextguest(0);
-    console.log(eatingguests);
 };
 
 

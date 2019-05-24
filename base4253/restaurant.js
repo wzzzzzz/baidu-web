@@ -22,6 +22,7 @@ var createRestaurant=(function(){
         }
     };
     return{
+        //单例模式
         getinstance: function(m,s,c){
             if(instance === null){
                 instance=new restaurant(m,s,c);
@@ -59,7 +60,6 @@ var createWaiter=(function(){
             });
             //点菜
             if(w instanceof Array){
-                gueststate(w[0].guest);
                 thiswaiter.move(1);
                 pro.then(function(thiswaiter){
                     //点菜               
@@ -76,27 +76,32 @@ var createWaiter=(function(){
                             dishtodo.push(new Array (ww) );
                         }                  
                         myrestaurant.money-=ww.cost;
-                        renewmoney();
                     });
+                    renewmoney();
+                    gueststate(w[0].guest);//************************************************
                     dishstate();
                     thiswaiter.state=0;
-                    mychef.work(); 
+                    mychef.work(); //************************************************
                 });       
             }
             //上菜
             else{
-                thiswaiter.move(-1);
-                console.log("上菜"+w.name);
+                thiswaiter.move(-1);                            
                 pro.then(function(thiswaiter){
+                    console.log("上菜ing");
                     //上菜
-                    w.guest.dishtoeat.push(w);            
-                    if(w.guest.eating==false){
-                        w.guest.eat();
+                    while(dishtoserve.length!=0){                       
+                        var thisdish=dishtoserve.shift();
+                        console.log("上菜"+thisdish.name);
+                        thisdish.guest.dishtoeat.push(thisdish);//************************************************        
+                        if(thisdish.guest.eating==false){
+                            thisdish.guest.eat();//************************************************
+                        }
+                        if(dishtodo.length!=0 || mychef.cooking==true){
+                            thiswaiter.move(1);
+                        }
+                        thiswaiter.state=0;
                     }
-                    if(dishtodo.length!=0 || mychef.cooking==true){
-                        thiswaiter.move(1);
-                    }
-                    thiswaiter.state=0;
                 });     
             }
         }
@@ -115,12 +120,14 @@ var createWaiter=(function(){
     waiter.prototype.nextguest=function(s){
         //delete(g);???????????????????
         //mywaiter.move(-1);
+        this.state=1;
+        var thiswaiter=this;
         var guestimg=document.getElementsByClassName("seat")[parseInt(s)].getElementsByTagName("img")[0];
         guestimg.src="img/0.png";
         var pro=new Promise(function(resolve){
-            setTimeout(resolve,1000,s);
+            setTimeout(resolve,1000,thiswaiter);
         });
-        pro.then(function(s){
+        pro.then(function(thiswaiter){
             var waiting=document.getElementById("waiting");
             var waitingimg=waiting.getElementsByTagName("img");
             
@@ -132,14 +139,18 @@ var createWaiter=(function(){
                 guestimg.src="img/1.png";
             }
             console.log("nextguest"+s);
+
+            //************************************************
             if(guests.length!=0){
-                guest0=guests.shift();
+                var guest0=guests.shift();
                 //分配座位
                 guest0.seat=s;
                 guest0.status=document.getElementsByClassName("seat")[parseInt(s)].getElementsByTagName("div")[0];
                 eatingguests++;
                 guest0.order();
-            }  
+            }
+            //************************************************  
+            thiswaiter.state=0;
         });
     };
     waiter.prototype.move=function(d){
@@ -177,6 +188,7 @@ var createWaiter=(function(){
         }
     }
     return {
+        //单例模式
         getinstance:function(i,n,s){
             if(instance===null)
                 instance=new waiter(i,n,s);
@@ -220,6 +232,7 @@ var createChef=(function(){
         }
     };
     return {
+        //单例模式
         getinstance: function(i,n,s){
             if(instance===null){
                 instance=new chef(i,n,s);
@@ -229,12 +242,13 @@ var createChef=(function(){
     }
 })();
 
-function chefpromise(cookingdish){//只能传一个参数
+function chefpromise(cookingdish){ //只能传一个参数
     console.log("做好了"+cookingdish[0].name);
     mychef.work();
     cookingdish.forEach(c => {
         c.state=1;
-        mywaiter.work(c); 
+        dishtoserve.push(c);
+        mywaiter.work(c); //************************************************
     });   
     
 }
@@ -290,8 +304,7 @@ guest.prototype.order=function(){
             thisguest.money+=newdish.price;
             thisguest.dishtoshow.push(newdish);
         }
-        // gueststate(thisguest);
-        mywaiter.work(order);
+        mywaiter.work(order);//************************************************
     })
 }
 //吃菜
@@ -325,7 +338,7 @@ guest.prototype.eat=function(){
             myrestaurant.money+=this.money;
             renewmoney();
             eatingguests--;
-            mywaiter.nextguest(this.seat);
+            mywaiter.nextguest(this.seat);//************************************************
             this.seat=-1;           
             //delete(this);?????????????????????????????????
         }      
@@ -365,15 +378,6 @@ function dish(n,c,p,ct,et,g){
     this.guest=g;
 }
 
-// var ifeRestaurant = new restaurant(1000000,20,[]);
-// var tonychef=new chef("c1","tony",10000);
-// ifeRestaurant.hireclerk(tonychef);
-// console.log(ifeRestaurant.clerk);
-// ifeRestaurant.fireclerk(tonychef);
-// tonychef=undefined;
-// console.log(ifeRestaurant.clerk);
-// console.log(tonychef);
-
 //这样写是不对的，后面的引用全都是直接用了这个实例，任何修改都会影响到这个实例。
 // var porridge =new dish("杂粮粥",2,5,1,3);
 // var vegnoddle=new dish("卤面",13,22,2,5);
@@ -408,9 +412,6 @@ var potato = function(g){
     this.prototype.constructor = potato;
 };
 
-var guests=new Array();
-var MAXwaitingguests=3;
-var eatingguests=0;
 var addguest = function (){
     var pro=new Promise(function(resolve){
         setTimeout(resolve,3000);
@@ -448,20 +449,25 @@ var payoff = function() {
 }
 
 var startBunsiness = function (){
+    //初始化创建厨师，服务员，餐厅，待做菜单，待上菜单，客人队列，最大等待人数，已经入座人数
     mychef=createChef.getinstance(0,"钱",8000);
     mywaiter=createWaiter.getinstance(0,"赵",4000);
     myrestaurant=createRestaurant.getinstance(100000,1,new Array(mywaiter,mychef));
     dishtodo=new Array();
-    time=0;
-    //setInterval(function(){timer();},1000);
+    dishtoserve=new Array();
+    guests=new Array();
+    MAXwaitingguests=3;
+    eatingguests=0;
+
+    //开始运行，不定时添加客人，定时发工资，新建客人并开始服务
     addguest();
     payoff();
     guests.push(new guest(0));
-    guest0=null;//当前服务的顾客
     mywaiter.nextguest(0);
 };
 
-
+// dishtodo.change->chef.work();
+// dishtoserve.change->waiter.work();
 
 
 //以下是单例模式的一个写法————通用的单例模式例子 的test

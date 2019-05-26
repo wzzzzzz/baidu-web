@@ -9,6 +9,8 @@
         <div id="title">我的餐厅</div>
         <div id="showmoney">餐厅资金：10000</div>
         <button onclick="startBunsiness()">开始营业</button>
+        <button onclick="addchef()">增加厨师</button>
+        <button onclick="addwaiter()">增加服务员</button>
         <div id="showarea">
             <div id="todolist">待做菜：</div>
             <div id="kitchen">     
@@ -54,6 +56,14 @@
         <div id="waiting">
             <div>排队：</div>
         </div>
+        <!-- 这里引用多个文件的时候要注意下顺序     -->
+
+        <script src="dish.js"></script>
+        <script src="guest.js"></script>
+        <script src="clerk.js"></script>
+        <script src="chef.js"></script>
+        <script src="waiter.js"></script>
+        <script src="createRestaurant.js"></script>
         <script src="restaurant.js"></script>
     </body>
 </html>

@@ -153,9 +153,7 @@
                 console.log("testttttttttttttttttttttttttt");
             }
 
-            var girlD = pubsub.subscribe('hhhhhhh类的文章', function (type, content) {
-                console.log('girlD订阅的'+type + ": 内容内容为：" + content);
-            });
+            var girlD = pubsub.subscribe('hhhhhhh类的文章', test);
             var girlE = pubsub.subscribe('hhhhhhh类的文章', function (type, content) {
                 console.log('girlE订阅的'+type + ": 内容内容为：" + content);
             });

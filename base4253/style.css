@@ -54,6 +54,15 @@ button{
     display: flex;
 }
 
+#chef{
+    flex: 1;
+}
+
+#chef img{
+    width:80px;
+    height:90px;
+}
+
 #cookingname{
     font-size: 14px;
 }
@@ -91,9 +100,10 @@ button{
 }
 
 #waiter img{
-    margin-top: 60px; 
-    width: 70px;
-    height:80px;
+    position: absolute;
+    margin-top: 75px; 
+    width: 58px;
+    height:65px;
 }
 
 #waiting{

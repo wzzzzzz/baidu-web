@@ -1,8 +1,8 @@
-    var chef = function (i,s){
+    var chef = function (i,s,div){
         clerk.call(this,i,s);
         //0表示空闲，可以进行下一步，1表示非空闲，需要等待
         this.state=0;
-        this.status=document.getElementById("chef").getElementsByTagName("div")[0];
+        this.status=div;
     };
     chef.prototype=Object.create(clerk.prototype);
     chef.prototype.constructor =chef;

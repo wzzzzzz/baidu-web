@@ -70,7 +70,7 @@
         //d=1表示去向上移动找厨师,此时w代表chef的id，d=-1表示向下移动找顾客，此时w代表座位号seat
         if(h==1){
             waiterimg.style.marginTop="0px";
-            waiterimg.style.marginLeft="0px";
+            waiterimg.style.marginLeft=(100*ind).toString() + "px";
             //可以，但是有时候有问题
             // var up = setInterval(() => {
             //     var now=parseInt(waiterimg.style.marginTop.substring(0,waiterimg.style.marginTop.length-2));
@@ -85,10 +85,8 @@
             // }, 100);
         }
         else{
-            waiterimg.style.marginTop="60px";
-            var left = w * document.getElementById("waiter").clientWidth/5;
-            console.log(w);
-            console.log(left.toString());
+            waiterimg.style.marginTop="75px";
+            var left = w * table;
             waiterimg.style.marginLeft=left.toString()+"px";
             //可以，但是有时候有问题
             // var down = setInterval(() => {

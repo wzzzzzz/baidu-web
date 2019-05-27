@@ -1,9 +1,11 @@
+var pad= getComputedStyle(document.getElementById("dininghall"),null)['padding-right'];
+var table = (document.getElementById("dininghall").clientWidth-pad.substr(0,pad.length-2)*2)/5;
 
 var startBunsiness = function (){
     //初始化创建厨师，服务员，餐厅，待做菜单，待上菜单，客人队列，最大等待人数，已经入座人数
     cheflist=new Array();
     waiterlist=new Array();
-    var newchef=new chef("c0",8000);
+    var newchef=new chef("c0",8000,document.getElementById("chef").getElementsByTagName("div")[0]);
     cheflist.push(newchef);
     var newwaiter=new waiter("w0",4000);
     waiterlist.push(newwaiter);
@@ -23,7 +25,21 @@ var startBunsiness = function (){
 };
 
 var addchef=function(){
-    var newchef=new chef("c"+cheflist.length,8000);
+    var newchefdiv = document.createElement("DIV");
+    var newchefimg1 = document.createElement("IMG");
+    var newchefimg2 = document.createElement("IMG");
+    var newcheftextdiv = document.createElement("DIV");
+    newchefdiv.id="chef";
+    newchefimg1.src="img/chef1.png";
+    newchefimg2.src="img/cooking2.png";
+    newcheftextdiv.id="cookingname";
+    newcheftextdiv.innerHTML="正在做：";
+    newchefdiv.appendChild(newchefimg1);
+    newchefdiv.appendChild(newchefimg2);
+    newchefdiv.appendChild(newcheftextdiv);
+    document.getElementById("chefs").appendChild(newchefdiv);
+
+    var newchef=new chef("c"+cheflist.length,8000,newcheftextdiv);
     cheflist.push(newchef);
     myrestaurant.hireclerk(newchef);
     console.log("增加厨师，现在一共"+cheflist.length);
@@ -35,6 +51,7 @@ var addwaiter=function(){
     myrestaurant.hireclerk(newwaiter);
     var newwaiterimg = document.createElement("IMG");
     newwaiterimg.src="img/waiter.png";
+    newwaiterimg.style.zIndex=newwaiter.id[1];
     document.getElementById("waiter").appendChild(newwaiterimg);
     console.log("增加服务员，现在一共"+waiterlist.length);
 }
@@ -46,6 +63,7 @@ var waiterwork=function(w,f){
     for(var i=0;i<waiterlist.length;i++){
         if(waiterlist[i].state==0){
             waiterlist[i].work(w,f);
+            //console.log(i+"号服务员工作！");
             flag=true;
             break;
         }
@@ -66,6 +84,7 @@ var waiterwork=function(w,f){
 var cookdish=function(){
     for(var i=0;i<cheflist.length;i++){
         if(cheflist[i].state==0){
+            console.log(i+"号厨师工作！");
             cheflist[i].work();
             break;
         }

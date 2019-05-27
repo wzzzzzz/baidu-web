@@ -30,9 +30,12 @@ var addchef=function(){
 }
 
 var addwaiter=function(){
-    var newwaiter=new waiter("w"+waiterlist.length,4000)
+    var newwaiter=new waiter("w"+waiterlist.length,4000);
     waiterlist.push(newwaiter);
     myrestaurant.hireclerk(newwaiter);
+    var newwaiterimg = document.createElement("IMG");
+    newwaiterimg.src="img/waiter.png";
+    document.getElementById("waiter").appendChild(newwaiterimg);
     console.log("增加服务员，现在一共"+waiterlist.length);
 }
 
@@ -40,13 +43,14 @@ var addwaiter=function(){
 // dishtoserve.change->waiter.work();
 var waiterwork=function(w,f){
     var flag=false;
-    waiterlist.forEach(waiter => {
-        if(waiter.state==0){
-            waiter.work(w,f);
+    for(var i=0;i<waiterlist.length;i++){
+        if(waiterlist[i].state==0){
+            waiterlist[i].work(w,f);
             flag=true;
-            return;
+            break;
         }
-    });
+    }
+
     if(!flag){
         //当前不空闲，就等1秒再次试图调用
         console.log("waiterbusy");
@@ -60,12 +64,12 @@ var waiterwork=function(w,f){
 }
 
 var cookdish=function(){
-    cheflist.forEach(chef => {
-        if(chef.state==0){
-            chef.work();
-            return;
+    for(var i=0;i<cheflist.length;i++){
+        if(cheflist[i].state==0){
+            cheflist[i].work();
+            break;
         }
-    });
+    }
 }
 
 //************************************************?????????????????????

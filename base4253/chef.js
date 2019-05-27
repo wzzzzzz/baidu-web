@@ -42,7 +42,6 @@ function chefpromise(args){ //只能传一个参数
     args.dishs.forEach(d => {
         d.state=1;
         dishtoserve.push(d);//************************************************
-        waiterwork(d,1);
-        //mywaiter.work(c); //************************************************
+        waiterwork(d,1);//************************************************
     });      
 }

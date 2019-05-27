@@ -60,7 +60,7 @@ button{
 
 #dininghall{
     height: 159px;
-    background-image: url(img/dininghall2.jpg);
+    background-image: url(img/kitchen4.jpg);
     background-repeat: repeat;
     display: flex;
     /* ???????????????????????????没明白这里怎么算的 */
@@ -91,7 +91,9 @@ button{
 }
 
 #waiter img{
-    margin-top: 60px;
+    margin-top: 60px; 
+    width: 70px;
+    height:80px;
 }
 
 #waiting{

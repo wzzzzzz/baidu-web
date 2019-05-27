@@ -14,7 +14,7 @@
             });
             //点菜
             if(flag==0){
-                thiswaiter.move(1);
+                thiswaiter.move(1,-1);
                 pro.then(function(thiswaiter){
                     //点菜               
                     w.forEach(ww => {
@@ -40,13 +40,13 @@
             }
             //上菜
             else{
-                thiswaiter.move(1);                                           
+                thiswaiter.move(1,-1);                                           
                 pro.then(function(thiswaiter){
                     console.log("上菜ing");
-                    thiswaiter.move(-1);
                     //上菜
                     while(dishtoserve.length!=0){                       
                         var thisdish=dishtoserve.shift();
+                        thiswaiter.move(-1,thisdish.guest.seat);
                         console.log("上菜"+thisdish.name);
                         thisdish.guest.dishtoeat.push(thisdish);//************************************************
                                 
@@ -64,11 +64,13 @@
             }
     };
 
-    waiter.prototype.move=function(d){
-        var waiterimg=document.getElementById("waiter").getElementsByTagName("img")[0];
-        //d=1表示去向上移动找厨师，d=-1表示向下移动找顾客
-        if(d==1){
+    waiter.prototype.move=function(h,w){
+        var ind=parseInt(this.id[1]);
+        var waiterimg=document.getElementById("waiter").getElementsByTagName("img")[ind];
+        //d=1表示去向上移动找厨师,此时w代表chef的id，d=-1表示向下移动找顾客，此时w代表座位号seat
+        if(h==1){
             waiterimg.style.marginTop="0px";
+            waiterimg.style.marginLeft="0px";
             //可以，但是有时候有问题
             // var up = setInterval(() => {
             //     var now=parseInt(waiterimg.style.marginTop.substring(0,waiterimg.style.marginTop.length-2));
@@ -84,6 +86,10 @@
         }
         else{
             waiterimg.style.marginTop="60px";
+            var left = w * document.getElementById("waiter").clientWidth/5;
+            console.log(w);
+            console.log(left.toString());
+            waiterimg.style.marginLeft=left.toString()+"px";
             //可以，但是有时候有问题
             // var down = setInterval(() => {
             //     var now=parseInt(waiterimg.style.marginTop.substring(0,waiterimg.style.marginTop.length-2));

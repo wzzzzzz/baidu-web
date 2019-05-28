@@ -18,14 +18,14 @@
                     //点菜               
                     w.forEach(ww => {
                         console.log(ww.guest.seat+"点菜"+ww.name);
-                        var flag=false;
+                        var f=false;
                         for(var i=0;i<dishtodo.length;i++){
                             if(dishtodo[i][0].name==ww.name){
                                 dishtodo[i].push(ww);
-                                flag=true;
+                                f=true;
                             }
                         }
-                        if(!flag){
+                        if(!f){
                             dishtodo.push(new Array (ww) );
                         }                  
                         myrestaurant.money-=ww.cost;
@@ -38,17 +38,28 @@
                 });       
             }
             //上菜//这里还是有点问题！上菜每次都要移动，应该一次上一个客人的，后面的下一个人上会比较好
-            else{              
-                pro.then(thiswaiter.move(-1,dishtoserve[0].guest.seat)).then(function(thiswaiter){
+            else{
+                var dishs=new Array();
+                dishs.push(dishtoserve.shift());
+                while(dishtoserve.length!=0){
+                    if(dishtoserve[0].guest==dishs[0].guest)
+                        dishs.push(dishtoserve.shift());
+                    else break;
+                }
+                if(dishtoserve.length!=0)
+                waiterwork(null,1);
+                
+                var thisguest=dishs[0].guest;
+                pro.then(thiswaiter.move(-1,thisguest.seat)).then(function(thiswaiter){
                     console.log("上菜ing");
                     //上菜
-                    while(dishtoserve.length!=0){                       
-                        var thisdish=dishtoserve.shift();
+                    while(dishs.length!=0){                       
+                        var thisdish=dishs.shift();
                         console.log("上菜"+thisdish.name);
-                        thisdish.guest.dishtoeat.push(thisdish);//************************************************
+                        thisguest.dishtoeat.push(thisdish);//************************************************
                                 
                         if(thisdish.guest.eating==false){
-                            setTimeout(thisdish.guest.eat(),1);//************************************************
+                            setTimeout(thisguest.eat(),1);//************************************************
                         }
     
                     }

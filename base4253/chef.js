@@ -21,13 +21,7 @@
             var pro=new Promise(function(resolve){
                 setTimeout(resolve,cooking[0].cooktime*1000,args);
             });
-            switch (cooking[0].name) {
-                case "杂粮粥": pro.then(chefpromise);break; 
-                case "卤面": pro.then(chefpromise); break;
-                case "麻食": pro.then(chefpromise); break;
-                case "油泼面": pro.then(chefpromise); break;
-                case "洋芋擦擦": pro.then(chefpromise); break;
-            }
+            pro.then(chefpromise);
         }
         else{
             this.status.innerHTML="空闲";

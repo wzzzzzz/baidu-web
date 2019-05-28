@@ -25,35 +25,39 @@ var startBunsiness = function (){
 };
 
 var addchef=function(){
-    var newchefdiv = document.createElement("DIV");
-    var newchefimg1 = document.createElement("IMG");
-    var newchefimg2 = document.createElement("IMG");
-    var newcheftextdiv = document.createElement("DIV");
-    newchefdiv.id="chef";
-    newchefimg1.src="img/chef1.png";
-    newchefimg2.src="img/cooking2.png";
-    newcheftextdiv.id="cookingname";
-    newcheftextdiv.innerHTML="正在做：";
-    newchefdiv.appendChild(newchefimg1);
-    newchefdiv.appendChild(newchefimg2);
-    newchefdiv.appendChild(newcheftextdiv);
-    document.getElementById("chefs").appendChild(newchefdiv);
-
-    var newchef=new chef("c"+cheflist.length,8000,newcheftextdiv);
-    cheflist.push(newchef);
-    myrestaurant.hireclerk(newchef);
-    console.log("增加厨师，现在一共"+cheflist.length);
+    if(cheflist.length<5){
+        var newchefdiv = document.createElement("DIV");
+        var newchefimg1 = document.createElement("IMG");
+        var newchefimg2 = document.createElement("IMG");
+        var newcheftextdiv = document.createElement("DIV");
+        newchefdiv.id="chef";
+        newchefimg1.src="img/chef1.png";
+        newchefimg2.src="img/cooking2.png";
+        newcheftextdiv.id="cookingname";
+        newcheftextdiv.innerHTML="正在做：";
+        newchefdiv.appendChild(newchefimg1);
+        newchefdiv.appendChild(newchefimg2);
+        newchefdiv.appendChild(newcheftextdiv);
+        document.getElementById("chefs").appendChild(newchefdiv);
+    
+        var newchef=new chef("c"+cheflist.length,8000,newcheftextdiv);
+        cheflist.push(newchef);
+        myrestaurant.hireclerk(newchef);
+        console.log("增加厨师，现在一共"+cheflist.length);
+    }
 }
 
 var addwaiter=function(){
-    var newwaiter=new waiter("w"+waiterlist.length,4000);
-    waiterlist.push(newwaiter);
-    myrestaurant.hireclerk(newwaiter);
-    var newwaiterimg = document.createElement("IMG");
-    newwaiterimg.src="img/waiter.png";
-    newwaiterimg.style.zIndex=newwaiter.id[1];
-    document.getElementById("waiter").appendChild(newwaiterimg);
-    console.log("增加服务员，现在一共"+waiterlist.length);
+    if(waiterlist.length<5){
+        var newwaiter=new waiter("w"+waiterlist.length,4000);
+        waiterlist.push(newwaiter);
+        myrestaurant.hireclerk(newwaiter);
+        var newwaiterimg = document.createElement("IMG");
+        newwaiterimg.src="img/waiter.png";
+        newwaiterimg.style.zIndex=newwaiter.id[1];
+        document.getElementById("waiter").appendChild(newwaiterimg);
+        console.log("增加服务员，现在一共"+waiterlist.length);
+    }
 }
 
 // dishtodo.change->chef.work();

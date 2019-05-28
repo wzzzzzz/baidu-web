@@ -14,8 +14,7 @@
             });
             //点菜
             if(flag==0){
-                thiswaiter.move(1,-1);
-                pro.then(function(thiswaiter){
+                pro.then(thiswaiter.move(1,-1)).then(function(thiswaiter){
                     //点菜               
                     w.forEach(ww => {
                         console.log(ww.guest.seat+"点菜"+ww.name);
@@ -38,28 +37,31 @@
                     cookdish(); //************************************************
                 });       
             }
-            //上菜
-            else{
-                thiswaiter.move(1,-1);                                           
-                pro.then(function(thiswaiter){
+            //上菜//这里还是有点问题！上菜每次都要移动，应该一次上一个客人的，后面的下一个人上会比较好
+            else{              
+                pro.then(thiswaiter.move(-1,dishtoserve[0].guest.seat)).then(function(thiswaiter){
                     console.log("上菜ing");
                     //上菜
                     while(dishtoserve.length!=0){                       
                         var thisdish=dishtoserve.shift();
-                        thiswaiter.move(-1,thisdish.guest.seat);
                         console.log("上菜"+thisdish.name);
                         thisdish.guest.dishtoeat.push(thisdish);//************************************************
                                 
                         if(thisdish.guest.eating==false){
                             setTimeout(thisdish.guest.eat(),1);//************************************************
                         }
-                        //这里有问题！！！
-                        // if(dishtodo.length!=0 || mychef.cooking==true){
-                            //thiswaiter.move(1);  
-                        // }     
+    
                     }
                     console.log("上完了");
                     thiswaiter.state=0;
+
+                    return thiswaiter;
+                }).then(function(thiswaiter){
+                        //这里有问题！！！
+                        // if(dishtodo.length!=0 || mychef.cooking==true){
+                            //thiswaiter.move(1);  
+                        // } 
+                        thiswaiter.move(1,-1);
                 });     
             }
     };
@@ -69,36 +71,36 @@
         var waiterimg=document.getElementById("waiter").getElementsByTagName("img")[ind];
         //d=1表示去向上移动找厨师,此时w代表chef的id，d=-1表示向下移动找顾客，此时w代表座位号seat
         if(h==1){
-            waiterimg.style.marginTop="0px";
+            //waiterimg.style.marginTop="0px";
             waiterimg.style.marginLeft=(100*ind).toString() + "px";
             //可以，但是有时候有问题
-            // var up = setInterval(() => {
-            //     var now=parseInt(waiterimg.style.marginTop.substring(0,waiterimg.style.marginTop.length-2));
-            //     if(now<=0)
-            //         clearInterval(up);
-            //     if(isNaN(now)){
-            //         waiterimg.style.marginTop="6px";
-            //     }
-            //     else {
-            //         waiterimg.style.marginTop=now-6+"px";
-            //     }
-            // }, 100);
+            var up = setInterval(() => {
+                var mtop=getComputedStyle(waiterimg,null)['margin-top'];
+                var nowtop=parseInt(mtop.substring(0,mtop.length-2));
+                if(nowtop<=5){
+                    clearInterval(up);
+                    waiterimg.style.marginTop="0px";
+                    return;
+                }
+                waiterimg.style.marginTop=nowtop-7.5+"px";
+            }, 100);
         }
         else{
-            waiterimg.style.marginTop="75px";
-            var left = w * table;
-            waiterimg.style.marginLeft=left.toString()+"px";
+            //waiterimg.style.marginTop="75px";
+            var left = w * table;            
             //可以，但是有时候有问题
-            // var down = setInterval(() => {
-            //     var now=parseInt(waiterimg.style.marginTop.substring(0,waiterimg.style.marginTop.length-2));
-            //     if(now>=60)
-            //         clearInterval(down);
-            //     if(isNaN(now)){
-            //         waiterimg.style.marginTop="6px";
-            //     }
-            //     else {
-            //         waiterimg.style.marginTop=now+6+"px";
-            //     }
-            // }, 100);
+            var down = setInterval(() => {
+                var mtop=getComputedStyle(waiterimg,null)['margin-top'];
+                var nowtop=parseInt(mtop.substring(0,mtop.length-2));
+                //var mleft=getComputedStyle(waiterimg,null)['margin-left'];
+                //var nowleft=parseInt(mleft.substring(0,mleft.length-2));
+                if(nowtop>=70){
+                    clearInterval(down);
+                    waiterimg.style.marginTop="75px";
+                    return;
+                }
+                //waiterimg.style.marginLeft=mleft+left/10+"px";
+                waiterimg.style.marginTop=nowtop+7.5+"px";
+            }, 100);
         }
     }

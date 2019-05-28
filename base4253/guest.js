@@ -22,7 +22,6 @@ guest.prototype.order=function(){
         setTimeout(resolve,2000,thisguest);
     });
     pro.then(function(thisguest){
-
         var order=new Array();
         for(var i=0;i<amount;i++){
             var ind=Math.floor((Math.random()*10)/2);
@@ -38,7 +37,27 @@ guest.prototype.order=function(){
             thisguest.money+=newdish.price;
             thisguest.dishtoshow.push(newdish);
         }
-        waiterwork(order,0);//************************************************
+        //waiterwork(order,0);//************************************************
+
+        //点好发给厨师
+        order.forEach(o => {
+            console.log(o.guest.seat+"点菜"+o.name);
+            var f=false;
+            for(var i=0;i<dishtodo.length;i++){
+                if(dishtodo[i][0].name==o.name){
+                    dishtodo[i].push(o);
+                    f=true;
+                }
+            }
+            if(!f){
+                dishtodo.push(new Array (o) );
+            }                  
+            myrestaurant.money-=o.cost;
+        });
+        renewmoney();//************************************************
+        gueststate(thisguest);
+        dishstate();//************************************************
+        cookdish();//************************************************
     })
 }
 //吃菜

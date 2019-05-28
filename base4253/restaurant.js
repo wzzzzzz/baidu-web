@@ -1,6 +1,3 @@
-var pad= getComputedStyle(document.getElementById("dininghall"),null)['padding-right'];
-var table = (document.getElementById("dininghall").clientWidth-pad.substr(0,pad.length-2)*2)/5;
-
 var startBunsiness = function (){
     //初始化创建厨师，服务员，餐厅，待做菜单，待上菜单，客人队列，最大等待人数，已经入座人数
     cheflist=new Array();
@@ -54,7 +51,8 @@ var addwaiter=function(){
         myrestaurant.hireclerk(newwaiter);
         var newwaiterimg = document.createElement("IMG");
         newwaiterimg.src="img/waiter.png";
-        newwaiterimg.style.zIndex=newwaiter.id[1];
+        newwaiterimg.style.marginLeft=parseInt(newwaiter.id[1])*70+"px";
+        newwaiterimg.style.zIndex=parseInt(newwaiter.id[1]);
         document.getElementById("waiter").appendChild(newwaiterimg);
         console.log("增加服务员，现在一共"+waiterlist.length);
     }

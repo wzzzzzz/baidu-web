@@ -57,48 +57,19 @@
             // console.log(test0.t7());//取的到
             // console.log(test0.t8());//取不到
 
-
-
-            function move(h,w){
-                //var ind=parseInt(this.id[1]);
-                var waiterimg=document.getElementById("waiter").getElementsByTagName("img")[0];
-                //d=1表示去向上移动找厨师,此时w代表chef的id，d=-1表示向下移动找顾客，此时w代表座位号seat
-                if(h==1){
-                    //waiterimg.style.marginTop="0px";
-                    //waiterimg.style.marginLeft=(100*ind).toString() + "px";
-                    //可以，但是有时候有问题
-                    var up = setInterval(() => {
-                        console.log("up..");
-                        var mtop=getComputedStyle(waiterimg,null)['margin-top'];
-                        var nowtop=parseInt(mtop.substring(0,mtop.length-2));
-                        if(nowtop<=5){
-                            clearInterval(up);
-                            waiterimg.style.marginTop="0px";
-                            return;
-                        }
-
-                        waiterimg.style.marginTop=nowtop-7.5+"px";
-                    }, 100);
-                }
-                else{
-                    //waiterimg.style.marginTop="75px";
-                    //var left = w * table;            
-                    //可以，但是有时候有问题
-                    var down = setInterval(() => {
-                        var mtop=getComputedStyle(waiterimg,null)['margin-top'];
-                        var nowtop=parseInt(mtop.substring(0,mtop.length-2));
-                        //var mleft=getComputedStyle(waiterimg,null)['margin-left'];
-                        //var nowleft=parseInt(mleft.substring(0,mleft.length-2));
-                        if(nowtop>=70){
-                            clearInterval(down);
-                            waiterimg.style.marginTop="75px";
-                            return;
-                        }
-
-                        //waiterimg.style.marginLeft=mleft+left/10+"px";
-                        waiterimg.style.marginTop=nowtop+7.5+"px";
-                    }, 100);
-                }
+            setInterval(function(){
+                console.log("hhh");
+            },50);
+            t();
+            function t(){
+                var pro=new Promise(function(resolve){
+                    setTimeout(resolve,700);
+                });
+                pro.then(function(){
+                    console.log("111111111111then");
+                }).then(function(){
+                    console.log("333333333333then");
+                });
             }
             
         </script>

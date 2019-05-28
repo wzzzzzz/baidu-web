@@ -63,25 +63,28 @@ var addwaiter=function(){
 // dishtodo.change->chef.work();
 // dishtoserve.change->waiter.work();
 var waiterwork=function(w,f){
-    var flag=false;
-    for(var i=0;i<waiterlist.length;i++){
-        if(waiterlist[i].state==0){
-            waiterlist[i].work(w,f);
-            //console.log(i+"号服务员工作！");
-            flag=true;
-            break;
+    console.log("服务员！");
+    if(f==0||dishtoserve.length>0){
+        var flag=false;
+        for(var i=0;i<waiterlist.length;i++){
+            if(waiterlist[i].state==0){
+                waiterlist[i].work(w,f);
+                //console.log(i+"号服务员工作！");
+                flag=true;
+                break;
+            }
         }
-    }
-
-    if(!flag){
-        //当前不空闲，就等1秒再次试图调用
-        console.log("waiterbusy");
-        var pro=new Promise(function(resolve){
-            setTimeout(resolve,1000);
-        });
-        pro.then(function(){
-            waiterwork(w,f);
-        });
+    
+        if(!flag){
+            //当前不空闲，就等1秒再次试图调用
+            console.log("waiterbusy");
+            var pro=new Promise(function(resolve){
+                setTimeout(resolve,1000);
+            });
+            pro.then(function(){
+                waiterwork(w,f);
+            });
+        }
     }
 }
 

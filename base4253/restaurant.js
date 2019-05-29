@@ -40,6 +40,8 @@ var addchef=function(){
         var newchef=new chef("c"+cheflist.length,8000,newcheftextdiv);
         cheflist.push(newchef);
         myrestaurant.hireclerk(newchef);
+        console.log(newchef);
+        cookdish();
         console.log("增加厨师，现在一共"+cheflist.length);
     }
 }
@@ -114,7 +116,7 @@ var renewmoney = function(){
 
 var payoff = function() {
     var pro=new Promise(function(resolve){
-        setTimeout(resolve,120000);
+        setTimeout(resolve,600000);
     });
     pro.then(function(){
         console.log("发工资了！");

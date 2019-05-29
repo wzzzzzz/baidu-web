@@ -24,7 +24,9 @@ guest.prototype.order=function(){
     pro.then(function(thisguest){
         var order=new Array();
         for(var i=0;i<amount;i++){
-            var ind=Math.floor((Math.random()*10)/2);
+            //测试修改
+            //var ind=Math.floor((Math.random()*10)/2);
+            var ind=i;
             var newdish;
             switch (ind) {
                 case 0: newdish=new porridge(thisguest);break;
@@ -47,10 +49,12 @@ guest.prototype.order=function(){
                 if(dishtodo[i][0].name==o.name){
                     dishtodo[i].push(o);
                     f=true;
+                    break;
                 }
             }
             if(!f){
-                dishtodo.push(new Array (o) );
+                var dishs=[o];
+                dishtodo.push(dishs);
             }                  
             myrestaurant.money-=o.cost;
         });

@@ -10,7 +10,7 @@
             this.state=1;
             //点菜和上菜都要花1秒
             var pro=new Promise(function(resolve){
-                setTimeout(resolve,700,thiswaiter);
+                setTimeout(resolve,800,thiswaiter);
             });
             //点菜
             if(flag==0){
@@ -67,17 +67,27 @@
                     if(thisdish.guest.eating==false){
                         setTimeout(thisguest.eat(),1);//************************************************
                     }
-                    console.log("上完了，回厨房");
-                    //然后回到厨房
-                    var pro1=new Promise(function(resolve){
-                        setTimeout(resolve,800,thiswaiter);
-                    });
-                    //这里有问题！！！
-                    if(dishtodo.length!=0)
+                    
+                    var i=0;
+                    for(i=0;i<cheflist.length;i++){
+                        if(cheflist[i].state==1){
+                            break;
+                        }
+                    }
+                    if(dishtodo.length!=0||i>0){
+                        console.log("上完了，回厨房");
+                        //然后回到厨房
+                        var pro1=new Promise(function(resolve){
+                            setTimeout(resolve,800,thiswaiter);
+                        });
                         thiswaiter.move(1,-1);
-                    pro1.then(function(thiswaiter){                  
+                        pro1.then(function(thiswaiter){                  
+                            thiswaiter.state=0; 
+                        });
+                    }
+                    else{   
                         thiswaiter.state=0; 
-                    });
+                    }
                 });     
             }
     };
@@ -99,6 +109,7 @@
                 var nowtop=parseFloat(mtop.substring(0,mtop.length-2));
                 mleft=getComputedStyle(waiterimg,null)['margin-left'];
                 nowleft=parseFloat(mleft.substring(0,mleft.length-2));
+                console.log(nowleft);
                 if(nowtop<=5){
                     clearInterval(up);
                     return;

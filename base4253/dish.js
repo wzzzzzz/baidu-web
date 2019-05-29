@@ -17,27 +17,27 @@ function dish(n,c,p,ct,et,g){
 // var menu=new Array(porridge,vegnoddle,mashi,oilnoddle,potato);
 //应该把这几种菜都写成类，作为dish的子类
 var porridge = function(g){
-    dish.call(this,"杂粮粥",1,5,1,3,g);
+    dish.call(this,"杂粮粥",1,5,10,13,g);
     this.prototype=Object.create(dish.prototype);
     this.prototype.constructor = porridge;
 };
 var vegnoddle = function(g){
-    dish.call(this,"卤面",10,22,2,5,g);
+    dish.call(this,"卤面",10,22,12,15,g);
     this.prototype=Object.create(dish.prototype);
     this.prototype.constructor = vegnoddle;
 };
 var mashi = function(g){
-    dish.call(this,"麻食",9,20,4,6,g);
+    dish.call(this,"麻食",9,20,14,16,g);
     this.prototype=Object.create(dish.prototype);
     this.prototype.constructor = mashi;
 };
 var oilnoddle = function(g){
-    dish.call(this,"油泼面",5,13,2,5,g);
+    dish.call(this,"油泼面",5,13,12,15,g);
     this.prototype=Object.create(dish.prototype);
     this.prototype.constructor = oilnoddle;
 };
 var potato = function(g){
-    dish.call(this,"洋芋擦擦",8,15,3,5,g);
+    dish.call(this,"洋芋擦擦",8,15,13,15,g);
     this.prototype=Object.create(dish.prototype);
     this.prototype.constructor = potato;
 };

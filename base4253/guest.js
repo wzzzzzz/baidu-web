@@ -43,7 +43,7 @@ guest.prototype.order=function(){
 
         //点好发给厨师
         order.forEach(o => {
-            console.log(o.guest.seat+"点菜"+o.name);
+            //console.log(o.guest.seat+"点菜"+o.name);
             var f=false;
             for(var i=0;i<dishtodo.length;i++){
                 if(dishtodo[i][0].name==o.name){
@@ -72,7 +72,7 @@ guest.prototype.eat=function(){
         eatingdish.state=1;
         gueststate(this);
         this.dishleft--;
-        console.log(this.status.innerHTML);
+        //console.log(this.status.innerHTML);
         var thisguest=this;
         var pro=new Promise(function(resolve){
             setTimeout(resolve,eatingdish.eattime*1000,thisguest);
@@ -90,7 +90,7 @@ guest.prototype.eat=function(){
         this.eating=false;  
         //用餐结束
         if(this.dishleft==0){
-            console.log(this.seat+"号桌用餐结束");
+            //console.log(this.seat+"号桌用餐结束");
             this.status.innerHTML="用餐结束";
             myrestaurant.money+=this.money;
             renewmoney();//************************************************
@@ -121,7 +121,7 @@ guest.prototype.nextguest=function(s){
         else{
             guestimg.src="img/1.png";
         }
-        console.log(s+"号桌新来顾客");
+        //console.log(s+"号桌新来顾客");
 
         //前一位离开后一位入座
         if(guests.length!=0){
@@ -169,7 +169,7 @@ var addguest = function (){
     });
 
     pro.then(function(){
-        console.log("addguest");
+        //console.log("addguest");
         if(guests.length<MAXwaitingguests){
             var newwaitingguest=document.createElement("img");
             var ind=Math.ceil(Math.random()*5);

@@ -14,7 +14,7 @@
             var args=new Object();
             args.chef=this;
             args.dishs=cooking;
-            console.log("做菜"+cooking[0].name);
+            //console.log("做菜"+cooking[0].name);
             dishstate(); //************************************************
             this.status.innerHTML="正在做："+ cooking[0].name;
 
@@ -30,12 +30,35 @@
     };
 
 function chefpromise(args){ //只能传一个参数
-    console.log("做好了"+args.dishs[0].name);
+    //console.log("做好了"+args.dishs[0].name);
     args.chef.state=0;
     cookdish();
     args.dishs.forEach(d => {
         d.state=1;
         dishtoserve.push(d);//************************************************
+        //dishtoservestate();
         waiterwork(d,1);//************************************************
     });      
 }
+
+//************************************************?????????????????????
+var dishstate = function (){
+    var state=document.getElementById("todolist");
+    state.innerHTML="待做菜：";
+    dishtodo.forEach(dishs => {
+        for(var i=0;i<dishs.length;i++){
+            state.innerHTML+=dishs[i].name+" ";
+        }
+    });
+}
+
+//************************************************
+// var dishtoservestate = function (){
+//     var state=document.getElementById("toservelist");
+//     state.innerHTML="待上菜：";
+//     dishtoserve.forEach(dishs => {
+//         for(var i=0;i<dishs.length;i++){
+//             state.innerHTML+=dishs[i].name+" ";
+//         }
+//     });
+// }

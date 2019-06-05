@@ -6,6 +6,7 @@ var startBunsiness = function (){
     cheflist.push(newchef);
     var newwaiter=new waiter("w0",4000);
     waiterlist.push(newwaiter);
+    document.getElementById("waiter").getElementsByTagName("img")[0].style.marginLeft=servepos+"px";
     myrestaurant=createRestaurant.getinstance(100000,1,new Array(newwaiter,newchef));
     dishtodo=new Array();
     dishtoserve=new Array();
@@ -28,7 +29,7 @@ var addchef=function(){
         var newchefimg2 = document.createElement("IMG");
         var newcheftextdiv = document.createElement("DIV");
         newchefdiv.id="chef";
-        newchefimg1.src="img/chef1.png";
+        newchefimg1.src="img/chef.png";
         newchefimg2.src="img/cooking2.png";
         newcheftextdiv.id="cookingname";
         newcheftextdiv.innerHTML="正在做：";
@@ -40,22 +41,30 @@ var addchef=function(){
         var newchef=new chef("c"+cheflist.length,8000,newcheftextdiv);
         cheflist.push(newchef);
         myrestaurant.hireclerk(newchef);
-        console.log(newchef);
         cookdish();
         console.log("增加厨师，现在一共"+cheflist.length);
     }
 }
 
+var pad= getComputedStyle(document.getElementById("dininghall"),null)['padding-right'];
+var tableall = document.getElementById("dininghall").clientWidth-pad.substr(0,pad.length-2)*2; 
+
 var addwaiter=function(){
+
     if(waiterlist.length<5){
         var newwaiter=new waiter("w"+waiterlist.length,4000);
         waiterlist.push(newwaiter);
         myrestaurant.hireclerk(newwaiter);
         var newwaiterimg = document.createElement("IMG");
         newwaiterimg.src="img/waiter.png";
-        newwaiterimg.style.marginLeft=parseInt(newwaiter.id[1])*70+"px";
-        newwaiterimg.style.zIndex=parseInt(newwaiter.id[1]);
         document.getElementById("waiter").appendChild(newwaiterimg);
+        for(var i=0;i<waiterlist.length;i++){
+            if(waiterlist[i].state==0)
+                document.getElementById("waiter").getElementsByTagName("img")[i].style.marginLeft=(tableall/2+parseFloat(waiterlist[i].id[1])*70-waiterlist.length*29)+"px";
+        }
+        //newwaiterimg.style.marginLeft=(servepos+(parseFloat(newwaiter.id[1])-waiterlist.length/2)*70)+"px";
+        newwaiterimg.style.zIndex=parseInt(newwaiter.id[1]);
+
         console.log("增加服务员，现在一共"+waiterlist.length);
     }
 }
@@ -63,7 +72,7 @@ var addwaiter=function(){
 // dishtodo.change->chef.work();
 // dishtoserve.change->waiter.work();
 var waiterwork=function(w,f){
-    console.log("服务员！");
+    //console.log("服务员！");
     if(f==0||dishtoserve.length>0){
         var flag=false;
         for(var i=0;i<waiterlist.length;i++){
@@ -77,7 +86,7 @@ var waiterwork=function(w,f){
     
         if(!flag){
             //当前不空闲，就等1秒再次试图调用
-            console.log("waiterbusy");
+            //console.log("waiterbusy");
             var pro=new Promise(function(resolve){
                 setTimeout(resolve,1000);
             });
@@ -91,23 +100,13 @@ var waiterwork=function(w,f){
 var cookdish=function(){
     for(var i=0;i<cheflist.length;i++){
         if(cheflist[i].state==0){
-            console.log(i+"号厨师工作！");
+            //console.log(i+"号厨师工作！");
             cheflist[i].work();
             break;
         }
     }
 }
 
-//************************************************?????????????????????
-var dishstate = function (){
-    var state=document.getElementById("todolist");
-    state.innerHTML="待做菜：";
-    dishtodo.forEach(dishs => {
-        for(var i=0;i<dishs.length;i++){
-            state.innerHTML+=dishs[i].name+" ";
-        }
-    });
-}
 
 //************************************************
 var renewmoney = function(){
@@ -119,7 +118,6 @@ var payoff = function() {
         setTimeout(resolve,600000);
     });
     pro.then(function(){
-        console.log("发工资了！");
         myrestaurant.clerk.forEach(c => {
             myrestaurant.money-=c.salary;
         });

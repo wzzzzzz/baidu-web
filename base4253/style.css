@@ -13,12 +13,13 @@ body {
 }
 
 button{
-    width: 8%;
+    width: 10%;
     min-width: 80px;
-    margin-left: 46%;
-    margin-right: 46%;
+    margin-left: 45%;
+    margin-right: 45%;
 }
 
+/* 有点问题，当页面变小到1000以下时，右边的margin就没了？？？ */
 #showarea{
     width: 85%;
     min-width: 1000px;
@@ -35,19 +36,19 @@ button{
     background-color: antiquewhite;
 }
 
-#todolist{
-    text-align: center;
-    padding-bottom: 8px;
-}
-
 #kitchen{
-    height: 150px;
+    height: 180px;
     border-bottom: 2px solid black;
     background-image: url(img/kitchen4.jpg);
     background-repeat: repeat;
     padding: 10px;
     padding-left: 6%;
     padding-right: 6%;
+}
+
+#todolist{
+    text-align: center;
+    padding-bottom: 8px;
 }
 
 #chefs{
@@ -64,7 +65,13 @@ button{
 }
 
 #cookingname{
+    padding-top: 8px;
     font-size: 14px;
+}
+
+#toservelist{
+    padding-top: 8px;
+    text-align: center;
 }
 
 #dininghall{
@@ -83,7 +90,7 @@ button{
     flex: 1;
 }
 
-#cookingname,#ordername{
+#ordername{
     padding-top: 8px;
     height: 71px;
     width: 90%;
@@ -92,7 +99,7 @@ button{
 
 #waiter{
     position: relative;
-    top:-320px;
+    top:-300px;
     /* background-color: antiquewhite; */
     height: 140px;
     padding-left: 6%;
@@ -103,7 +110,7 @@ button{
     position: absolute;
     margin-top: 0px; 
     width: 58px;
-    height:65px;
+    height: 65px;
 }
 
 #waiting{

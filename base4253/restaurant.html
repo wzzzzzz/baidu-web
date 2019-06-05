@@ -11,16 +11,17 @@
         <button onclick="startBunsiness()">开始营业</button>
         <button onclick="addchef()">增加厨师</button>
         <button onclick="addwaiter()">增加服务员</button>
-        <div id="showarea">
-            <div id="todolist">待做菜：</div>
-            <div id="kitchen">     
+        <div id="showarea">           
+            <div id="kitchen">
+                <div id="todolist">待做菜：</div>     
                 <div id="chefs">
                     <div id="chef">
-                        <img src="img/chef1.png">
+                        <img src="img/chef.png">
                         <img src="img/cooking2.png">
                         <div id="cookingname">正在做：</div>
                     </div>
                 </div>
+                <div id="toservelist">上菜窗口</div>  
             </div>
             <div id="dininghall">
                 <div class="seat">
@@ -56,8 +57,7 @@
         <div id="waiting">
             <div>排队：</div>
         </div>
-        <!-- 这里引用多个文件的时候要注意下顺序     -->
-
+        <!--这里引用多个文件的时候要注意下顺序-->
         <script src="dish.js"></script>
         <script src="guest.js"></script>
         <script src="clerk.js"></script>

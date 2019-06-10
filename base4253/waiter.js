@@ -111,13 +111,13 @@
             var i=0;
             var up = setInterval(() => {
                 i++;
-                var mleft=getComputedStyle(waiterimg,null)['margin-left'];
-                var now=parseFloat(mleft.substring(0,mleft.length-2));
-                if(now>1000){
-                    console.log("向上飞出去了！！！！！！！！！！！");
-                    console.log(now);
-                    console.log(i);
-                }
+                // var mleft=getComputedStyle(waiterimg,null)['margin-left'];
+                // var now=parseFloat(mleft.substring(0,mleft.length-2));
+                // if(now>1000){
+                //     console.log("向上飞出去了！！！！！！！！！！！");
+                //     console.log(now);
+                //     console.log(i);
+                // }
                 if(i>10){
                     // waiterimg.style.marginLeft=thisservepos+"px";
                     // waiterimg.style.marginTop="0px";
@@ -133,13 +133,13 @@
             var j=0;                              
             var down = setInterval(() => {
                 j++;
-                var mleft=getComputedStyle(waiterimg,null)['margin-left'];
-                var nowleft=parseFloat(mleft.substring(0,mleft.length-2));
-                if(nowleft>1000){
-                    console.log("向下飞出去了！！！！！！！！！！！");
-                    console.log(nowleft);
-                    console.log(i);
-                }
+                // var mleft=getComputedStyle(waiterimg,null)['margin-left'];
+                // var nowleft=parseFloat(mleft.substring(0,mleft.length-2));
+                // if(nowleft>1000){
+                //     console.log("向下飞出去了！！！！！！！！！！！");
+                //     console.log(nowleft);
+                //     console.log(i);
+                // }
                 if(j>10){
                     // waiterimg.style.marginLeft=w * table+"px";
                     // waiterimg.style.marginTop=55+"px";

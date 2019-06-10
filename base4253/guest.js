@@ -25,8 +25,8 @@ guest.prototype.order=function(){
         var order=new Array();
         for(var i=0;i<amount;i++){
             //测试修改
-            //var ind=Math.floor((Math.random()*10)/2);
-            var ind=i;
+            var ind=Math.floor((Math.random()*10)/2);
+            //var ind=i;
             var newdish;
             switch (ind) {
                 case 0: newdish=new porridge(thisguest);break;

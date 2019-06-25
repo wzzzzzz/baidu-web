@@ -1,0 +1,135 @@
+body {
+    font-family: "Microsoft YaHei" ;
+}
+
+#title{
+    text-align: center;
+    font-size: 120%;
+    margin-top: 30px;
+}
+
+#showmoney{
+    text-align: center;
+}
+
+button{
+    width: 10%;
+    min-width: 80px;
+    margin-left: 45%;
+    margin-right: 45%;
+}
+
+/* 有点问题，当页面变小到1000以下时，右边的margin就没了？？？ */
+#showarea{
+    width: 85%;
+    min-width: 1000px;
+    height: 500px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+    padding: 2.5%;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    background-color: antiquewhite;
+}
+
+#kitchen{
+    height: 180px;
+    border-bottom: 2px solid black;
+    background-image: url(kitchen4.jpg);
+    background-repeat: repeat;
+    padding: 10px;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+#todolist{
+    text-align: center;
+    padding-bottom: 8px;
+}
+
+#chefs{
+    display: flex;
+}
+
+#chef{
+    flex: 1;
+}
+
+#chef img{
+    width:80px;
+    height:90px;
+}
+
+#cookingname{
+    padding-top: 8px;
+    font-size: 14px;
+}
+
+#toservelist{
+    padding-top: 8px;
+    text-align: center;
+}
+
+#dininghall{
+    height: 159px;
+    background-image: url(kitchen4.jpg);
+    background-repeat: repeat;
+    display: flex;
+    /* ???????????????????????????没明白这里怎么算的 */
+    padding-top: 100px;
+    padding-bottom: 40px;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+.seat{
+    flex: 1;
+}
+
+#ordername{
+    padding-top: 8px;
+    height: 71px;
+    width: 90%;
+    font-size: 14px;
+}
+
+#waiter{
+    position: relative;
+    top:-300px;
+    /* background-color: antiquewhite; */
+    height: 140px;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+#waiter img{
+    position: absolute;
+    margin-top: 0px; 
+    width: 58px;
+    height: 65px;
+}
+
+#waiting{
+    width: 85%;
+    min-width: 1000px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 120px;
+    background-color: antiquewhite;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 2.5%;
+    padding-top: 0px;
+    padding-bottom: 20px;
+}
+
+#waiting img{
+    width: 80px;
+    height: 100px;
+    padding-right: 10px;
+}

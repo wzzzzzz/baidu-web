@@ -10,6 +10,11 @@
         </div>
         <button onclick="move(1,0)">move1</button>
         <button onclick="move(0,0)">move0</button>
+		<br/>
+		<div style="overflow:hidden">
+			<div style="float:left;background-color:red;width:50%">hhdddddddddddddddddddddddddd</div>
+			<div style="float:right;background-color:yellow;width:70%">aaaaaaaaaaaaaaaaaadddddddddddddddddddddddddddddhh</div>
+		</div>
         <script>
             //总结：如果构造函数有return值，那么构造函数里的变量不能用this.来定义，用var来定义的话可以在构造函数的函数中取到，也可以在return的函数中取到。但注意直接饮用，不要用this.
             //构造函数里的函数，可以在return中取到，但是不能由实例直接取
@@ -71,7 +76,91 @@
                     console.log("333333333333then");
                 });
             }
-            
+
+
+            var obj={
+                valueOf:function(){
+                    return 1;
+                },
+                toString:function(){
+                    return 2;
+                },
+                get:function(){
+                    return "get";
+                }
+            }
+            // alert(obj);//toString
+            // alert(obj+" ");//valueOf
+            // alert(obj*1);//valueOf
+            // alert(obj);
+
+
+            window.onload=function () {
+                console.log("onload");
+            }
+            document.addEventListener("DOMContentLoaded",function () {
+                console.log("onDOMContentLoaded");
+            });
+            document.onreadystatechange=function () {
+                console.log(document.readyState);
+            }
+            window.onbeforeunload=function(){
+                console.log("beforeunload");
+            }
+            window.onunload=function () {
+                console.log("onunload");
+            }
+
+
+            var a=111111111;
+            var func=()=>{
+                return ()=>{
+                    //return ()=>{
+                        //return ()=>{
+                            console.log(this.a);
+                        //}
+                    //}
+                }
+            }
+            func()();//111111111
+            func.call({a:2222222})();//111111111
+            func().call({a:2222222});//111111111
+            var func2=function(){
+                return ()=>{
+                    return ()=>{
+                    //return ()=>{
+                    console.log(this.a);
+                    //}
+                    }
+                }
+            }
+            func2()()();//111111
+            func2.call({a:222222})()();//222222
+            func2().call({a:222222})();//111111
+            func2()().call({a:222222});//111111
+            var func3={
+                a:4444444,
+                b: ()=>{
+                    //return ()=>{
+                    //return ()=>{
+                    console.log(this.a);
+                    //}
+                    //}
+                },
+                c: function(){
+                    return ()=>{
+                        return ()=>{
+                            console.log(this.a);
+                        }
+                    }
+                }
+            }
+            func3.b();//1111111
+            func3.b.call({a:5555555});//111111
+            func3.c()()();//4444444
+            func3.c.call({a:5555555})()();//5555555
+            func3.c().call({a:5555555})();//4444444
+            func3.c()().call({a:5555555});//4444444
         </script>
     </body>
 </html>
